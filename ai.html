@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>NAVI | AI Assistant</title>
+
+<link rel="stylesheet" href="css/style.css">
+```
+
+</head>
+
+<body>
+
+<div class="app">
+
+```
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-mark">N</div>
+        <div class="logo-text">NAVI</div>
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Terminal
+        </div>
+
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
+
+        <a href="markets.html" class="nav-item">
+            <span class="nav-icon">◈</span>
+            Markets
+        </a>
+
+        <a href="analyzer.html" class="nav-item">
+            <span class="nav-icon">⌁</span>
+            Trade Analyzer
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Portfolio
+        </div>
+
+        <a href="portfolio.html" class="nav-item">
+            <span class="nav-icon">▥</span>
+            Portfolio
+        </a>
+
+        <a href="risk.html" class="nav-item">
+            <span class="nav-icon">△</span>
+            Risk
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Intelligence
+        </div>
+
+        <a href="ai.html" class="nav-item active">
+            <span class="nav-icon">✦</span>
+            NAVI Assistant
+        </a>
+
+    </div>
+
+    <div class="sidebar-status">
+
+        <div class="connection-status">
+
+            <span class="status-dot"></span>
+
+            NAVI ONLINE
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <div>
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()">
+                ☰
+            </button>
+
+            <h1 class="page-title">
+                NAVI Assistant
+            </h1>
+
+            <p class="page-subtitle">
+                AI-powered trading intelligence
+            </p>
+
+        </div>
+
+        <div class="connection-status">
+
+            <span
+                class="status-dot"
+                id="status-dot">
+            </span>
+
+            <span id="status-text">
+                CHECKING
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- AI TERMINAL -->
+    <section class="section">
+
+        <div class="card ai-terminal">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        NAVI Intelligence Terminal
+                    </div>
+
+                    <div class="card-subtitle">
+                        Direct connection to your local Ollama AI
+                    </div>
+
+                </div>
+
+                <span class="badge badge-green">
+                    OLLAMA
+                </span>
+
+            </div>
+
+
+            <!-- CHAT AREA -->
+            <div
+                id="chat"
+                class="chat-area">
+
+                <div class="message navi-message">
+
+                    <div class="message-label">
+                        NAVI
+                    </div>
+
+                    <div class="message-content">
+
+                        NAVI online.
+
+                        <br><br>
+
+                        Ask me about:
+
+                        <br>
+                        • Market structure
+                        <br>
+                        • Trading setups
+                        <br>
+                        • Risk management
+                        <br>
+                        • Risk/reward
+                        <br>
+                        • Portfolio exposure
+                        <br>
+                        • BTCUSD, XAUUSD, EURUSD
+                        <br>
+                        • US30 and NAS100
+                        <br>
+                        • Trading psychology
+                        <br>
+                        • Your trading plan
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK QUESTIONS -->
+            <div class="quick-questions">
+
+                <button
+                    onclick="askQuick(
+                        'What should I check before entering a trade?'
+                    )">
+                    Pre-trade checklist
+                </button>
+
+                <button
+                    onclick="askQuick(
+                        'Explain risk reward ratio to me.'
+                    )">
+                    Risk / Reward
+                </button>
+
+                <button
+                    onclick="askQuick(
+                        'How should I manage risk on my trading account?'
+                    )">
+                    Risk management
+                </button>
+
+                <button
+                    onclick="askQuick(
+                        'Explain market structure in simple terms.'
+                    )">
+                    Market structure
+                </button>
+
+            </div>
+
+
+            <!-- INPUT -->
+            <div class="chat-input-area">
+
+                <textarea
+                    id="question"
+                    placeholder="Ask NAVI anything about trading..."
+                    rows="3"
+                    onkeydown="handleEnter(event)"
+                ></textarea>
+
+                <button
+                    class="btn btn-primary send-button"
+                    onclick="sendQuestion()">
+
+                    ASK NAVI
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- AI STATUS -->
+    <section class="section">
+
+        <div class="grid grid-4">
+
+            <div class="card">
+
+                <div class="metric-label">
+                    AI ENGINE
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="engine">
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Local Ollama model
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    MODEL
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="model">
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Active model
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    BACKEND
+                </div>
+
+                <div
+                    class="metric-value positive"
+                    id="backend-status">
+                    CHECKING
+                </div>
+
+                <div class="metric-small">
+                    NAVI API
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    SESSION
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="message-count">
+                    0
+                </div>
+
+                <div class="metric-small">
+                    Questions asked
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DISCLAIMER -->
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-title">
+                NAVI Intelligence Notice
+            </div>
+
+            <p class="notice">
+
+                NAVI provides analytical information and
+                does not guarantee trading results.
+
+                <br><br>
+
+                Always verify market data, position sizing,
+                execution conditions and broker specifications
+                before placing a trade.
+
+            </p>
+
+        </div>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<script>
+
+/* ==========================================
+   NAVI AI CONFIGURATION
+========================================== */
+
+const BACKEND_URL =
+    "http://127.0.0.1:8000";
+
+
+let messageCount = 0;
+
+
+/* ==========================================
+   CHECK BACKEND
+========================================== */
+
+async function checkBackend() {
+
+    try {
+
+        const response =
+            await fetch(
+                BACKEND_URL + "/"
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Backend unavailable"
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+
+        document.getElementById(
+            "status-text"
+        ).textContent =
+            "NAVI ONLINE";
+
+
+        document.getElementById(
+            "backend-status"
+        ).textContent =
+            "ONLINE";
+
+
+        document.getElementById(
+            "engine"
+        ).textContent =
+            "OLLAMA";
+
+
+        document.getElementById(
+            "model"
+        ).textContent =
+            data.ollama_model ||
+            "llama3.2";
+
+
+    } catch (error) {
+
+        document.getElementById(
+            "status-text"
+        ).textContent =
+            "OFFLINE";
+
+
+        document.getElementById(
+            "backend-status"
+        ).textContent =
+            "OFFLINE";
+
+
+        document.getElementById(
+            "engine"
+        ).textContent =
+            "--";
+
+
+        document.getElementById(
+            "model"
+        ).textContent =
+            "--";
+
+    }
+
+}
+
+
+/* ==========================================
+   SEND QUESTION
+========================================== */
+
+async function sendQuestion() {
+
+    const input =
+        document.getElementById(
+            "question"
+        );
+
+
+    const question =
+        input.value.trim();
+
+
+    if (!question) {
+
+        return;
+
+    }
+
+
+    addMessage(
+        "YOU",
+        question,
+        "user-message"
+    );
+
+
+    input.value = "";
+
+
+    const loadingId =
+        addMessage(
+            "NAVI",
+            "Analyzing...",
+            "navi-message loading-message"
+        );
+
+
+    try {
+
+        /*
+            We use /chat if your backend
+            supports it.
+
+            If not, NAVI will tell you
+            exactly what endpoint is missing.
+        */
+
+        const response =
+            await fetch(
+                BACKEND_URL + "/chat",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        question:
+                            question
+
+                    })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.details ||
+                data.error ||
+                "AI request failed"
+            );
+
+        }
+
+
+        removeMessage(
+            loadingId
+        );
+
+
+        const answer =
+            data.response ||
+            data.analysis ||
+            data.answer ||
+            "NAVI returned no response.";
+
+
+        addMessage(
+            "NAVI",
+            answer,
+            "navi-message"
+        );
+
+
+        messageCount++;
+
+
+        document.getElementById(
+            "message-count"
+        ).textContent =
+            messageCount;
+
+
+    } catch (error) {
+
+        removeMessage(
+            loadingId
+        );
+
+
+        addMessage(
+            "NAVI",
+            "Connection error: " +
+            error.message,
+            "navi-message error-message"
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   ADD MESSAGE
+========================================== */
+
+function addMessage(
+    sender,
+    text,
+    className
+) {
+
+    const chat =
+        document.getElementById(
+            "chat"
+        );
+
+
+    const wrapper =
+        document.createElement(
+            "div"
+        );
+
+
+    wrapper.className =
+        "message " +
+        className;
+
+
+    const id =
+        "message-" +
+        Date.now() +
+        Math.random()
+            .toString(36)
+            .substring(2);
+
+
+    wrapper.id = id;
+
+
+    const label =
+        document.createElement(
+            "div"
+        );
+
+
+    label.className =
+        "message-label";
+
+
+    label.textContent =
+        sender;
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.className =
+        "message-content";
+
+
+    content.textContent =
+        text;
+
+
+    wrapper.appendChild(
+        label
+    );
+
+
+    wrapper.appendChild(
+        content
+    );
+
+
+    chat.appendChild(
+        wrapper
+    );
+
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+
+    return id;
+
+}
+
+
+/* ==========================================
+   REMOVE MESSAGE
+========================================== */
+
+function removeMessage(
+    id
+) {
+
+    const element =
+        document.getElementById(
+            id
+        );
+
+
+    if (element) {
+
+        element.remove();
+
+    }
+
+}
+
+
+/* ==========================================
+   QUICK QUESTIONS
+========================================== */
+
+function askQuick(
+    question
+) {
+
+    document.getElementById(
+        "question"
+    ).value =
+        question;
+
+
+    sendQuestion();
+
+}
+
+
+/* ==========================================
+   ENTER KEY
+========================================== */
+
+function handleEnter(
+    event
+) {
+
+    /*
+        Enter = send
+        Shift + Enter = new line
+    */
+
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
+
+        event.preventDefault();
+
+        sendQuestion();
+
+    }
+
+}
+
+
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+function toggleSidebar() {
+
+    document
+        .querySelector(
+            ".sidebar"
+        )
+        .classList
+        .toggle(
+            "open"
+        );
+
+}
+
+
+/* ==========================================
+   START
+========================================== */
+
+checkBackend();
+
+</script>
+
+<style>
+
+/* ==========================================
+   AI TERMINAL
+========================================== */
+
+.ai-terminal {
+    min-height: 650px;
+}
+
+
+.chat-area {
+
+    height: 430px;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    margin-bottom: 15px;
+
+    background:
+        #04100c;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        7px;
+
+}
+
+
+.message {
+
+    max-width:
+        850px;
+
+    margin-bottom:
+        20px;
+
+    padding:
+        15px 17px;
+
+    border-radius:
+        7px;
+
+}
+
+
+.navi-message {
+
+    background:
+        #081b14;
+
+    border:
+        1px solid #174332;
+
+}
+
+
+.user-message {
+
+    background:
+        #0b261c;
+
+    border:
+        1px solid #20563f;
+
+    margin-left:
+        auto;
+
+}
+
+
+.message-label {
+
+    font-size:
+        10px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        .12em;
+
+    color:
+        var(--green);
+
+    margin-bottom:
+        8px;
+
+}
+
+
+.user-message .message-label {
+
+    color:
+        var(--gold);
+
+}
+
+
+.message-content {
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.8;
+
+    white-space:
+        pre-wrap;
+
+}
+
+
+/* ==========================================
+   QUICK QUESTIONS
+========================================== */
+
+.quick-questions {
+
+    display:
+        flex;
+
+    gap:
+        8px;
+
+    flex-wrap:
+        wrap;
+
+    margin-bottom:
+        15px;
+
+}
+
+
+.quick-questions button {
+
+    background:
+        #071a13;
+
+    color:
+        var(--text-secondary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        5px;
+
+    padding:
+        8px 12px;
+
+    font-size:
+        11px;
+
+    cursor:
+        pointer;
+
+}
+
+
+.quick-questions button:hover {
+
+    border-color:
+        var(--green);
+
+    color:
+        var(--green);
+
+}
+
+
+/* ==========================================
+   INPUT
+========================================== */
+
+.chat-input-area {
+
+    display:
+        flex;
+
+    gap:
+        10px;
+
+    align-items:
+        flex-end;
+
+}
+
+
+.chat-input-area textarea {
+
+    flex:
+        1;
+
+    resize:
+        vertical;
+
+    min-height:
+        55px;
+
+    max-height:
+        180px;
+
+    box-sizing:
+        border-box;
+
+    background:
+        #06130f;
+
+    color:
+        var(--text-primary);
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        6px;
+
+    padding:
+        14px;
+
+    font-family:
+        inherit;
+
+    font-size:
+        13px;
+
+    outline:
+        none;
+
+}
+
+
+.chat-input-area textarea:focus {
+
+    border-color:
+        var(--green);
+
+}
+
+
+.send-button {
+
+    min-width:
+        125px;
+
+    height:
+        55px;
+
+}
+
+
+/* ==========================================
+   NOTICE
+========================================== */
+
+.notice {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.8;
+
+    margin-top:
+        15px;
+
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.error-message {
+
+    border-color:
+        #63363a;
+
+    background:
+        #1b0c0e;
+
+}
+
+
+.loading-message {
+
+    opacity:
+        .65;
+
+}
+
+
+/* ==========================================
+   MOBILE
+========================================== */
+
+@media(max-width:700px) {
+
+    .chat-input-area {
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+    }
+
+
+    .send-button {
+
+        width:
+            100%;
+
+    }
+
+
+    .chat-area {
+
+        height:
+            400px;
+
+    }
+
+}
+
+</style>
+
+</body>
+
+</html>
