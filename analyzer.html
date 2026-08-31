@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>NAVI | Intelligence</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+```
+
+</head>
+
+<body>
+
+<div class="app">
+
+```
+<!-- =========================
+     SIDEBAR
+========================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            N
+        </div>
+
+        <div class="logo-text">
+            NAVI
+        </div>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Terminal
+        </div>
+
+
+        <a
+            href="index.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
+
+
+        <a
+            href="markets.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">◈</span>
+            Markets
+        </a>
+
+
+        <a
+            href="analyzer.html"
+            class="nav-item active"
+        >
+            <span class="nav-icon">⌁</span>
+            NAVI Intelligence
+        </a>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Portfolio
+        </div>
+
+
+        <a
+            href="portfolio.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">▥</span>
+            Portfolio
+        </a>
+
+
+        <a
+            href="risk.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">△</span>
+            Risk
+        </a>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Intelligence
+        </div>
+
+
+        <a
+            href="ai.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">✦</span>
+            NAVI Assistant
+        </a>
+
+    </div>
+
+
+    <div class="sidebar-status">
+
+        <div class="connection-status">
+
+            <span class="status-dot"></span>
+
+            NAVI ONLINE
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="content">
+
+
+    <!-- HEADER -->
+
+    <header class="topbar">
+
+        <div>
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+
+            <h1 class="page-title">
+                NAVI Intelligence
+            </h1>
+
+
+            <p class="page-subtitle">
+                Institutional-style trade analysis and risk intelligence
+            </p>
+
+        </div>
+
+
+        <div class="connection-status">
+
+            <span class="status-dot"></span>
+
+            AI ENGINE READY
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         ANALYSIS INPUT
+    ========================== -->
+
+    <section class="section">
+
+        <div class="grid grid-2">
+
+
+            <!-- TRADE INPUT -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Trade Setup
+                        </div>
+
+                        <div class="card-subtitle">
+                            Define the position NAVI should analyze
+                        </div>
+
+                    </div>
+
+
+                    <span class="badge badge-green">
+                        RISK ENGINE
+                    </span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        ASSET
+                    </label>
+
+                    <select
+                        id="asset"
+                        class="navi-input"
+                    >
+
+                        <option value="BTCUSD">
+                            BTCUSD
+                        </option>
+
+                        <option value="XAUUSD">
+                            XAUUSD
+                        </option>
+
+                        <option value="EURUSD">
+                            EURUSD
+                        </option>
+
+                        <option value="US30">
+                            US30
+                        </option>
+
+                        <option value="NAS100">
+                            NAS100
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        ENTRY PRICE
+                    </label>
+
+                    <input
+                        id="entry"
+                        class="navi-input"
+                        type="number"
+                        step="0.01"
+                        placeholder="Entry price"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        STOP LOSS
+                    </label>
+
+                    <input
+                        id="stop-loss"
+                        class="navi-input"
+                        type="number"
+                        step="0.01"
+                        placeholder="Stop loss"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        TAKE PROFIT
+                    </label>
+
+                    <input
+                        id="take-profit"
+                        class="navi-input"
+                        type="number"
+                        step="0.01"
+                        placeholder="Take profit"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        ACCOUNT BALANCE
+                    </label>
+
+                    <input
+                        id="balance"
+                        class="navi-input"
+                        type="number"
+                        value="10000"
+                        step="0.01"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        RISK PER TRADE (%)
+                    </label>
+
+                    <input
+                        id="risk"
+                        class="navi-input"
+                        type="number"
+                        value="1"
+                        min="0.01"
+                        step="0.1"
+                    >
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="analyzeTrade()"
+                    id="analyze-button"
+                    style="width:100%;"
+                >
+                    ANALYZE TRADE
+                </button>
+
+
+                <div
+                    id="input-error"
+                    class="error-message"
+                ></div>
+
+            </div>
+
+
+
+            <!-- CALCULATIONS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            NAVI Risk Model
+                        </div>
+
+                        <div class="card-subtitle">
+                            Authoritative Python calculations
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-panel">
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Direction
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="direction"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Risk Distance
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="risk-distance"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Reward Distance
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="reward-distance"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Risk / Reward
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="risk-reward"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Maximum Loss
+                        </span>
+
+                        <span
+                            class="analysis-value negative"
+                            id="maximum-loss"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Potential Profit
+                        </span>
+
+                        <span
+                            class="analysis-value positive"
+                            id="potential-profit"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Position Size
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="position-size"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Account Risk
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="account-risk"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Risk Level
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="risk-level"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         NAVI AI ANALYSIS
+    ========================== -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        NAVI Intelligence
+                    </div>
+
+                    <div class="card-subtitle">
+                        AI interpretation powered by Ollama
+                    </div>
+
+                </div>
+
+
+                <span class="badge badge-gold">
+                    OLLAMA
+                </span>
+
+            </div>
+
+
+            <div
+                id="ai-status"
+                class="metric-small"
+                style="margin-bottom:20px;"
+            >
+                Waiting for trade analysis
+            </div>
+
+
+            <div
+                id="ai-analysis"
+                class="ai-analysis"
+            >
+                <div class="empty-state">
+
+                    Enter your trade parameters above
+                    and select
+                    <strong>ANALYZE TRADE</strong>.
+
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         WARNINGS
+    ========================== -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Risk Warnings
+                    </div>
+
+                    <div class="card-subtitle">
+                        Automated pre-trade checks
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="warnings"
+                class="warning-panel"
+            >
+
+                <div class="empty-state">
+                    No trade has been analyzed.
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+```
+
+</div>
+
+<script>
+
+/* ==========================================
+   NAVI INTELLIGENCE
+========================================== */
+
+
+/*
+    Your backend.
+*/
+
+const BACKEND_URL =
+    "https://cyberspace.tail754c2f.ts.net";
+
+
+/* ==========================================
+   MOBILE SIDEBAR
+========================================== */
+
+function toggleSidebar() {
+
+    document
+        .querySelector(".sidebar")
+        .classList
+        .toggle("open");
+
+}
+
+
+/* ==========================================
+   FORMAT MONEY
+========================================== */
+
+function formatMoney(value) {
+
+    const number =
+        Number(value);
+
+    if (!Number.isFinite(number)) {
+
+        return "--";
+
+    }
+
+    return "$" +
+        number.toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+
+}
+
+
+/* ==========================================
+   SHOW ERROR
+========================================== */
+
+function showError(message) {
+
+    document.getElementById(
+        "input-error"
+    ).textContent =
+        message;
+
+}
+
+
+/* ==========================================
+   CLEAR ERROR
+========================================== */
+
+function clearError() {
+
+    document.getElementById(
+        "input-error"
+    ).textContent =
+        "";
+
+}
+
+
+/* ==========================================
+   ANALYZE TRADE
+========================================== */
+
+async function analyzeTrade() {
+
+    clearError();
+
+
+    const button =
+        document.getElementById(
+            "analyze-button"
+        );
+
+
+    const asset =
+        document.getElementById(
+            "asset"
+        ).value;
+
+
+    const entry =
+        Number(
+            document.getElementById(
+                "entry"
+            ).value
+        );
+
+
+    const stopLoss =
+        Number(
+            document.getElementById(
+                "stop-loss"
+            ).value
+        );
+
+
+    const takeProfit =
+        Number(
+            document.getElementById(
+                "take-profit"
+            ).value
+        );
+
+
+    const balance =
+        Number(
+            document.getElementById(
+                "balance"
+            ).value
+        );
+
+
+    const risk =
+        Number(
+            document.getElementById(
+                "risk"
+            ).value
+        );
+
+
+    /* ======================================
+       VALIDATION
+    ====================================== */
+
+    if (
+        entry <= 0 ||
+        stopLoss <= 0 ||
+        takeProfit <= 0 ||
+        balance <= 0 ||
+        risk <= 0
+    ) {
+
+        showError(
+            "Please enter valid values for all trade fields."
+        );
+
+        return;
+
+    }
+
+
+    button.disabled =
+        true;
+
+
+    button.textContent =
+        "ANALYZING...";
+
+
+    document.getElementById(
+        "ai-status"
+    ).textContent =
+        "NAVI is analyzing the trade...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                BACKEND_URL + "/analyze",
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            asset:
+                                asset,
+
+                            entry:
+                                entry,
+
+                            stop_loss:
+                                stopLoss,
+
+                            take_profit:
+                                takeProfit,
+
+                            balance:
+                                balance,
+
+                            risk:
+                                risk
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.details ||
+                data.error ||
+                "Analysis failed."
+            );
+
+        }
+
+
+        updateCalculations(
+            data
+        );
+
+
+        updateAI(
+            data
+        );
+
+
+        generateWarnings(
+            data
+        );
+
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "NAVI analysis error:",
+            error
+        );
+
+
+        showError(
+            error.message
+        );
+
+
+        document.getElementById(
+            "ai-status"
+        ).textContent =
+            "Analysis failed.";
+
+    }
+
+    finally {
+
+        button.disabled =
+            false;
+
+
+        button.textContent =
+            "ANALYZE TRADE";
+
+    }
+
+}
+
+
+/* ==========================================
+   UPDATE CALCULATIONS
+========================================== */
+
+function updateCalculations(
+    data
+) {
+
+    const calculations =
+        data.calculations;
+
+
+    if (!calculations) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "direction"
+    ).textContent =
+        data.trade?.direction ||
+        "--";
+
+
+    document.getElementById(
+        "risk-distance"
+    ).textContent =
+        calculations.risk_distance ??
+        "--";
+
+
+    document.getElementById(
+        "reward-distance"
+    ).textContent =
+        calculations.reward_distance ??
+        "--";
+
+
+    document.getElementById(
+        "risk-reward"
+    ).textContent =
+        "1:" +
+        Number(
+            calculations.risk_reward
+        ).toFixed(2);
+
+
+    document.getElementById(
+        "maximum-loss"
+    ).textContent =
+        "-" +
+        formatMoney(
+            calculations.risk_amount
+        );
+
+
+    document.getElementById(
+        "potential-profit"
+    ).textContent =
+        "+" +
+        formatMoney(
+            calculations.potential_profit
+        );
+
+
+    document.getElementById(
+        "position-size"
+    ).textContent =
+        calculations.position_size;
+
+
+    document.getElementById(
+        "account-risk"
+    ).textContent =
+        calculations.actual_risk_percent +
+        "%";
+
+
+    document.getElementById(
+        "risk-level"
+    ).textContent =
+        calculations.risk_level;
+
+}
+
+
+/* ==========================================
+   UPDATE AI
+========================================== */
+
+function updateAI(
+    data
+) {
+
+    const analysis =
+        data.analysis ||
+        "NAVI did not return an analysis.";
+
+
+    document.getElementById(
+        "ai-status"
+    ).textContent =
+        "Analysis complete";
+
+
+    document.getElementById(
+        "ai-analysis"
+    ).innerHTML =
+
+        "<div class='ai-response'>" +
+
+        formatAIText(
+            analysis
+        ) +
+
+        "</div>";
+
+}
+
+
+/* ==========================================
+   BASIC AI TEXT FORMATTER
+========================================== */
+
+function formatAIText(
+    text
+) {
+
+    return text
+        .replace(
+            /\n/g,
+            "<br>"
+        );
+
+}
+
+
+/* ==========================================
+   WARNINGS
+========================================== */
+
+function generateWarnings(
+    data
+) {
+
+    const warnings =
+        document.getElementById(
+            "warnings"
+        );
+
+
+    const calculations =
+        data.calculations;
+
+
+    if (!calculations) {
+
+        warnings.innerHTML =
+            "<div class='empty-state'>No risk data available.</div>";
+
+        return;
+
+    }
+
+
+    let output = "";
+
+
+    const riskLevel =
+        calculations.risk_level;
+
+
+    const rr =
+        Number(
+            calculations.risk_reward
+        );
+
+
+    if (
+        riskLevel ===
+        "VERY HIGH"
+    ) {
+
+        output +=
+            createWarning(
+                "HIGH RISK",
+                "The selected account risk is very high."
+            );
+
+    }
+
+
+    else if (
+        riskLevel ===
+        "HIGH"
+    ) {
+
+        output +=
+            createWarning(
+                "ELEVATED RISK",
+                "Account exposure is elevated. Review the position before execution."
+            );
+
+    }
+
+
+    if (
+        rr < 1
+    ) {
+
+        output +=
+            createWarning(
+                "LOW REWARD",
+                "The potential reward is smaller than the defined risk."
+            );
+
+    }
+
+
+    if (
+        rr >= 2
+    ) {
+
+        output +=
+            createPositive(
+                "RISK / REWARD",
+                "The defined reward is at least twice the defined risk."
+            );
+
+    }
+
+
+    output +=
+        createWarning(
+            "BROKER SPECIFICATION",
+            "Actual position sizing may depend on contract size, tick value, pip value, leverage and instrument specifications."
+        );
+
+
+    warnings.innerHTML =
+        output;
+
+}
+
+
+/* ==========================================
+   WARNING COMPONENT
+========================================== */
+
+function createWarning(
+    title,
+    message
+) {
+
+    return `
+
+        <div class="navi-warning">
+
+            <div class="warning-title">
+                ${title}
+            </div>
+
+            <div class="warning-text">
+                ${message}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ==========================================
+   POSITIVE COMPONENT
+========================================== */
+
+function createPositive(
+    title,
+    message
+) {
+
+    return `
+
+        <div class="navi-positive">
+
+            <div class="warning-title">
+                ${title}
+            </div>
+
+            <div class="warning-text">
+                ${message}
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+</script>
+
+<style>
+
+/* ==========================================
+   NAVI INPUTS
+========================================== */
+
+.navi-input {
+
+    width:
+        100%;
+
+    box-sizing:
+        border-box;
+
+    background:
+        #071a13;
+
+    border:
+        1px solid var(--border);
+
+    color:
+        var(--text-primary);
+
+    border-radius:
+        6px;
+
+    padding:
+        12px;
+
+    font-size:
+        13px;
+
+    outline:
+        none;
+
+    margin-top:
+        8px;
+
+}
+
+
+.navi-input:focus {
+
+    border-color:
+        var(--green);
+
+    box-shadow:
+        0 0 0 1px
+        rgba(
+            24,
+            199,
+            122,
+            0.15
+        );
+
+}
+
+
+.form-group {
+
+    margin-bottom:
+        18px;
+
+}
+
+
+select.navi-input {
+
+    cursor:
+        pointer;
+
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+.error-message {
+
+    color:
+        #ef5b63;
+
+    font-size:
+        12px;
+
+    margin-top:
+        14px;
+
+    line-height:
+        1.6;
+
+}
+
+
+/* ==========================================
+   AI RESPONSE
+========================================== */
+
+.ai-analysis {
+
+    background:
+        #06130f;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:
+        7px;
+
+    padding:
+        22px;
+
+    min-height:
+        120px;
+
+}
+
+
+.ai-response {
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        13px;
+
+    line-height:
+        1.9;
+
+}
+
+
+/* ==========================================
+   EMPTY STATE
+========================================== */
+
+.empty-state {
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.8;
+
+}
+
+
+/* ==========================================
+   WARNING PANEL
+========================================== */
+
+.warning-panel {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    gap:
+        10px;
+
+}
+
+
+.navi-warning,
+.navi-positive {
+
+    padding:
+        15px 18px;
+
+    border-radius:
+        6px;
+
+    background:
+        #071a13;
+
+    border:
+        1px solid var(--border);
+
+}
+
+
+.navi-warning {
+
+    border-left:
+        3px solid #ef5b63;
+
+}
+
+
+.navi-positive {
+
+    border-left:
+        3px solid var(--green);
+
+}
+
+
+.warning-title {
+
+    font-size:
+        11px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        0.08em;
+
+    margin-bottom:
+        6px;
+
+}
+
+
+.warning-text {
+
+    color:
+        var(--text-secondary);
+
+    font-size:
+        12px;
+
+    line-height:
+        1.7;
+
+}
+
+
+/* ==========================================
+   NUMBER INPUTS
+========================================== */
+
+.navi-input::-webkit-outer-spin-button,
+.navi-input::-webkit-inner-spin-button {
+
+    -webkit-appearance:
+        none;
+
+    margin:
+        0;
+
+}
+
+
+.navi-input[type=number] {
+
+    -moz-appearance:
+        textfield;
+
+    appearance:
+        textfield;
+
+}
+
+</style>
+
+</body>
+
+</html>
