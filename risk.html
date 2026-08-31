@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>NAVI | Risk Management</title>
+
+<link rel="stylesheet" href="css/style.css">
+```
+
+</head>
+
+<body>
+
+<div class="app">
+
+```
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <div class="logo-mark">N</div>
+        <div class="logo-text">NAVI</div>
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Terminal
+        </div>
+
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
+
+        <a href="markets.html" class="nav-item">
+            <span class="nav-icon">◈</span>
+            Markets
+        </a>
+
+        <a href="analyzer.html" class="nav-item">
+            <span class="nav-icon">⌁</span>
+            Trade Analyzer
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Portfolio
+        </div>
+
+        <a href="portfolio.html" class="nav-item">
+            <span class="nav-icon">▥</span>
+            Portfolio
+        </a>
+
+        <a href="risk.html" class="nav-item active">
+            <span class="nav-icon">△</span>
+            Risk
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Intelligence
+        </div>
+
+        <a href="ai.html" class="nav-item">
+            <span class="nav-icon">✦</span>
+            NAVI Assistant
+        </a>
+
+    </div>
+
+    <div class="sidebar-status">
+
+        <div class="connection-status">
+            <span class="status-dot"></span>
+            NAVI ONLINE
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+<main class="content">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <div>
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+            <h1 class="page-title">
+                Risk Management
+            </h1>
+
+            <p class="page-subtitle">
+                Portfolio exposure and trade risk control
+            </p>
+
+        </div>
+
+        <div class="connection-status">
+
+            <span class="status-dot"></span>
+
+            RISK ENGINE ONLINE
+
+        </div>
+
+    </header>
+
+
+    <!-- RISK OVERVIEW -->
+    <section class="section">
+
+        <div class="grid grid-4">
+
+            <div class="card">
+
+                <div class="metric-label">
+                    ACCOUNT BALANCE
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="account-balance"
+                >
+                    $0.00
+                </div>
+
+                <div class="metric-small">
+                    MT5 account
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    RISK PER TRADE
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="risk-display"
+                >
+                    1.00%
+                </div>
+
+                <div class="metric-small">
+                    Target risk
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    CAPITAL AT RISK
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="capital-risk"
+                >
+                    $0.00
+                </div>
+
+                <div class="metric-small">
+                    Maximum loss
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    RISK STATUS
+                </div>
+
+                <div
+                    class="metric-value positive"
+                    id="risk-status"
+                >
+                    LOW
+                </div>
+
+                <div class="metric-small">
+                    Current risk level
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RISK CALCULATOR -->
+    <section class="section">
+
+        <div class="grid grid-2">
+
+            <!-- INPUTS -->
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Risk Calculator
+                        </div>
+
+                        <div class="card-subtitle">
+                            Calculate trade exposure before execution
+                        </div>
+
+                    </div>
+
+                    <span class="badge badge-green">
+                        NAVI RISK
+                    </span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        ACCOUNT BALANCE
+                    </label>
+
+                    <input
+                        id="balance-input"
+                        type="number"
+                        value="10000"
+                        step="0.01"
+                        class="navi-input"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        RISK PER TRADE (%)
+                    </label>
+
+                    <input
+                        id="risk-input"
+                        type="number"
+                        value="1"
+                        min="0.01"
+                        step="0.1"
+                        class="navi-input"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        ENTRY PRICE
+                    </label>
+
+                    <input
+                        id="entry-input"
+                        type="number"
+                        value="0"
+                        step="0.01"
+                        class="navi-input"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        STOP LOSS
+                    </label>
+
+                    <input
+                        id="stop-input"
+                        type="number"
+                        value="0"
+                        step="0.01"
+                        class="navi-input"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="metric-label">
+                        TAKE PROFIT
+                    </label>
+
+                    <input
+                        id="target-input"
+                        type="number"
+                        value="0"
+                        step="0.01"
+                        class="navi-input"
+                    >
+
+                </div>
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="calculateRisk()"
+                    style="width:100%;"
+                >
+                    CALCULATE RISK
+                </button>
+
+            </div>
+
+
+            <!-- RESULTS -->
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Risk Assessment
+                        </div>
+
+                        <div class="card-subtitle">
+                            NAVI calculated exposure
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-panel">
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Direction
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="result-direction"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Risk Distance
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="result-risk-distance"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Reward Distance
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="result-reward-distance"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Risk / Reward
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="result-rr"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Maximum Loss
+                        </span>
+
+                        <span
+                            class="analysis-value negative"
+                            id="result-loss"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Potential Profit
+                        </span>
+
+                        <span
+                            class="analysis-value positive"
+                            id="result-profit"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Position Size
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="result-position"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Risk Level
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="result-level"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DAILY RISK -->
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Portfolio Risk Controls
+                    </div>
+
+                    <div class="card-subtitle">
+                        Monitor account-level exposure
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-4">
+
+                <div>
+
+                    <div class="metric-label">
+                        DAILY LOSS LIMIT
+                    </div>
+
+                    <div
+                        class="metric-value"
+                        id="daily-limit"
+                    >
+                        $0.00
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        DAILY P&L
+                    </div>
+
+                    <div
+                        class="metric-value"
+                        id="daily-pnl"
+                    >
+                        $0.00
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        OPEN EXPOSURE
+                    </div>
+
+                    <div
+                        class="metric-value"
+                        id="open-exposure"
+                    >
+                        $0.00
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        AVAILABLE RISK
+                    </div>
+
+                    <div
+                        class="metric-value positive"
+                        id="available-risk"
+                    >
+                        $0.00
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- WARNING -->
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        NAVI Risk Intelligence
+                    </div>
+
+                    <div class="card-subtitle">
+                        Risk management guidance
+                    </div>
+
+                </div>
+
+                <span class="badge badge-gold">
+                    NAVI AI
+                </span>
+
+            </div>
+
+
+            <div
+                id="risk-message"
+                style="
+                color:var(--text-secondary);
+                font-size:13px;
+                line-height:1.8;
+                "
+            >
+                Enter your trade parameters and calculate
+                the risk before placing the trade.
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+```
+
+</div>
+
+<script>
+
+/* ==========================================
+   NAVI RISK ENGINE
+========================================== */
+
+
+function toggleSidebar() {
+
+    document
+        .querySelector(".sidebar")
+        .classList
+        .toggle("open");
+
+}
+
+
+/* ==========================================
+   RISK CALCULATOR
+========================================== */
+
+function calculateRisk() {
+
+    const balance =
+        Number(
+            document.getElementById(
+                "balance-input"
+            ).value
+        );
+
+    const riskPercent =
+        Number(
+            document.getElementById(
+                "risk-input"
+            ).value
+        );
+
+    const entry =
+        Number(
+            document.getElementById(
+                "entry-input"
+            ).value
+        );
+
+    const stop =
+        Number(
+            document.getElementById(
+                "stop-input"
+            ).value
+        );
+
+    const target =
+        Number(
+            document.getElementById(
+                "target-input"
+            ).value
+        );
+
+
+    if (
+        balance <= 0 ||
+        riskPercent <= 0 ||
+        entry <= 0 ||
+        stop <= 0 ||
+        target <= 0
+    ) {
+
+        document.getElementById(
+            "risk-message"
+        ).textContent =
+            "Enter valid account, entry, stop-loss and take-profit values.";
+
+        return;
+
+    }
+
+
+    let direction;
+
+    let riskDistance;
+
+    let rewardDistance;
+
+
+    /*
+        LONG
+        Stop < Entry < Target
+    */
+
+    if (
+        stop < entry &&
+        entry < target
+    ) {
+
+        direction = "LONG";
+
+        riskDistance =
+            entry - stop;
+
+        rewardDistance =
+            target - entry;
+
+    }
+
+
+    /*
+        SHORT
+        Target < Entry < Stop
+    */
+
+    else if (
+        target < entry &&
+        entry < stop
+    ) {
+
+        direction = "SHORT";
+
+        riskDistance =
+            stop - entry;
+
+        rewardDistance =
+            entry - target;
+
+    }
+
+
+    else {
+
+        document.getElementById(
+            "risk-message"
+        ).textContent =
+            "Invalid setup. LONG requires Stop Loss < Entry < Take Profit. SHORT requires Take Profit < Entry < Stop Loss.";
+
+        return;
+
+    }
+
+
+    const riskAmount =
+        balance *
+        (riskPercent / 100);
+
+
+    const riskReward =
+        rewardDistance /
+        riskDistance;
+
+
+    const potentialProfit =
+        riskAmount *
+        riskReward;
+
+
+    /*
+        Simple price-distance
+        position sizing.
+
+        Broker contract specifications
+        can change the actual lot size.
+    */
+
+    const positionSize =
+        riskAmount /
+        riskDistance;
+
+
+    let riskLevel;
+
+
+    if (riskPercent <= 1) {
+
+        riskLevel = "LOW";
+
+    }
+
+    else if (riskPercent <= 2) {
+
+        riskLevel = "MODERATE";
+
+    }
+
+    else if (riskPercent <= 5) {
+
+        riskLevel = "HIGH";
+
+    }
+
+    else {
+
+        riskLevel = "VERY HIGH";
+
+    }
+
+
+    /* ======================================
+       UPDATE RESULTS
+    ====================================== */
+
+    document.getElementById(
+        "account-balance"
+    ).textContent =
+        money(balance);
+
+
+    document.getElementById(
+        "risk-display"
+    ).textContent =
+        riskPercent.toFixed(2) + "%";
+
+
+    document.getElementById(
+        "capital-risk"
+    ).textContent =
+        money(riskAmount);
+
+
+    document.getElementById(
+        "risk-status"
+    ).textContent =
+        riskLevel;
+
+
+    document.getElementById(
+        "result-direction"
+    ).textContent =
+        direction;
+
+
+    document.getElementById(
+        "result-risk-distance"
+    ).textContent =
+        riskDistance.toFixed(4);
+
+
+    document.getElementById(
+        "result-reward-distance"
+    ).textContent =
+        rewardDistance.toFixed(4);
+
+
+    document.getElementById(
+        "result-rr"
+    ).textContent =
+        "1:" +
+        riskReward.toFixed(2);
+
+
+    document.getElementById(
+        "result-loss"
+    ).textContent =
+        "-" +
+        money(riskAmount);
+
+
+    document.getElementById(
+        "result-profit"
+    ).textContent =
+        "+" +
+        money(potentialProfit);
+
+
+    document.getElementById(
+        "result-position"
+    ).textContent =
+        positionSize.toFixed(8);
+
+
+    document.getElementById(
+        "result-level"
+    ).textContent =
+        riskLevel;
+
+
+    /*
+        Example daily risk limit:
+        3% of account balance.
+    */
+
+    const dailyLimit =
+        balance * 0.03;
+
+
+    document.getElementById(
+        "daily-limit"
+    ).textContent =
+        money(dailyLimit);
+
+
+    document.getElementById(
+        "available-risk"
+    ).textContent =
+        money(
+            dailyLimit -
+            riskAmount
+        );
+
+
+    document.getElementById(
+        "risk-message"
+    ).textContent =
+        buildRiskMessage(
+            direction,
+            riskPercent,
+            riskReward,
+            riskLevel,
+            riskAmount
+        );
+
+}
+
+
+/* ==========================================
+   RISK MESSAGE
+========================================== */
+
+function buildRiskMessage(
+    direction,
+    riskPercent,
+    riskReward,
+    riskLevel,
+    riskAmount
+) {
+
+    let message =
+        "NAVI has identified a " +
+        direction +
+        " trade setup. ";
+
+
+    message +=
+        "The maximum planned loss is " +
+        money(riskAmount) +
+        ". ";
+
+
+    message +=
+        "The calculated risk/reward ratio is 1:" +
+        riskReward.toFixed(2) +
+        ". ";
+
+
+    if (riskLevel === "VERY HIGH") {
+
+        message +=
+            "WARNING: The selected account risk is very high.";
+
+    }
+
+    else if (riskLevel === "HIGH") {
+
+        message +=
+            "WARNING: Account risk is elevated. Review the position before execution.";
+
+    }
+
+    else {
+
+        message +=
+            "Risk level is within the selected risk threshold.";
+
+    }
+
+
+    message +=
+        " Actual broker position sizing may depend on contract size, tick value, pip value, leverage and instrument specifications.";
+
+
+    return message;
+
+}
+
+
+/* ==========================================
+   MONEY FORMAT
+========================================== */
+
+function money(
+    value
+) {
+
+    return "$" +
+        Number(value).toLocaleString(
+            "en-US",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+
+}
+
+
+/* ==========================================
+   INITIAL VALUES
+========================================== */
+
+calculateRisk();
+
+</script>
+
+<style>
+
+.navi-input {
+
+    width:100%;
+
+    box-sizing:border-box;
+
+    background:
+        #071a13;
+
+    border:
+        1px solid var(--border);
+
+    color:
+        var(--text-primary);
+
+    border-radius:
+        6px;
+
+    padding:
+        12px;
+
+    font-size:
+        13px;
+
+    outline:
+        none;
+
+    margin-top:
+        8px;
+
+}
+
+
+.navi-input:focus {
+
+    border-color:
+        var(--green);
+
+    box-shadow:
+        0 0 0 1px
+        rgba(24,199,122,0.15);
+
+}
+
+
+.form-group {
+
+    margin-bottom:
+        18px;
+
+}
+
+
+.navi-input::-webkit-outer-spin-button,
+.navi-input::-webkit-inner-spin-button {
+
+    -webkit-appearance:
+        none;
+
+    margin:
+        0;
+
+}
+
+
+.navi-input[type=number] {
+
+    -moz-appearance: textfield;
+    appearance: textfield;
+
+}
+
+</style>
+
+</body>
+
+</html>
