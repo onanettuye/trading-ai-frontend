@@ -1,739 +1,594 @@
-```html
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+```
+<title>NAVI | Markets</title>
 
-    <title>NAVI | Markets</title>
+<link rel="stylesheet" href="css/style.css">
 
-    <link
-        rel="stylesheet"
-        href="css/style.css"
-    >
-
-    <!-- TradingView Lightweight Charts -->
-    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+<!-- Lightweight Charts -->
+<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+```
 
 </head>
-
 
 <body>
 
 <div class="app">
 
+```
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-    <!-- =========================
-         SIDEBAR
-    ========================== -->
+    <div class="logo">
+        <div class="logo-mark">N</div>
+        <div class="logo-text">NAVI</div>
+    </div>
 
-    <aside class="sidebar">
+    <div class="nav-section">
 
-        <div class="logo">
-
-            <div class="logo-mark">
-                N
-            </div>
-
-            <div class="logo-text">
-                NAVI
-            </div>
-
+        <div class="nav-section-title">
+            Terminal
         </div>
 
+        <a href="index.html" class="nav-item">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
 
-        <div class="nav-section">
+        <a href="markets.html" class="nav-item active">
+            <span class="nav-icon">◈</span>
+            Markets
+        </a>
 
-            <div class="nav-section-title">
-                Terminal
-            </div>
+        <a href="analyzer.html" class="nav-item">
+            <span class="nav-icon">⌁</span>
+            Trade Analyzer
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Portfolio
+        </div>
+
+        <a href="portfolio.html" class="nav-item">
+            <span class="nav-icon">▥</span>
+            Portfolio
+        </a>
+
+        <a href="risk.html" class="nav-item">
+            <span class="nav-icon">△</span>
+            Risk
+        </a>
+
+    </div>
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Intelligence
+        </div>
+
+        <a href="ai.html" class="nav-item">
+            <span class="nav-icon">✦</span>
+            NAVI Assistant
+        </a>
+
+    </div>
+
+    <div class="sidebar-status">
+
+        <div class="connection-status">
+            <span class="status-dot"></span>
+            NAVI ONLINE
+        </div>
+
+    </div>
+
+</aside>
 
 
-            <a
-                href="index.html"
-                class="nav-item"
+<!-- MAIN -->
+<main class="content">
+
+    <!-- HEADER -->
+    <header class="topbar">
+
+        <div>
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
             >
-                <span class="nav-icon">▦</span>
-                Dashboard
-            </a>
+                ☰
+            </button>
 
-
-            <a
-                href="markets.html"
-                class="nav-item active"
-            >
-                <span class="nav-icon">◈</span>
+            <h1 class="page-title">
                 Markets
-            </a>
+            </h1>
 
-
-            <a
-                href="analyzer.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">⌁</span>
-                Trade Analyzer
-            </a>
+            <p class="page-subtitle">
+                Live market intelligence from MT5
+            </p>
 
         </div>
 
+        <div class="connection-status">
 
-        <div class="nav-section">
+            <span
+                class="status-dot"
+                id="connection-dot"
+            ></span>
 
-            <div class="nav-section-title">
-                Portfolio
-            </div>
-
-
-            <a
-                href="portfolio.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">▥</span>
-                Portfolio
-            </a>
-
-
-            <a
-                href="risk.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">△</span>
-                Risk
-            </a>
+            <span id="connection-text">
+                CONNECTING
+            </span>
 
         </div>
 
-
-        <div class="nav-section">
-
-            <div class="nav-section-title">
-                Intelligence
-            </div>
+    </header>
 
 
-            <a
-                href="ai.html"
-                class="nav-item"
-            >
-                <span class="nav-icon">✦</span>
-                NAVI Assistant
-            </a>
+    <!-- MARKET WATCH -->
+    <section class="section">
 
-        </div>
-
-
-        <div class="sidebar-status">
-
-            <div class="connection-status">
-
-                <span class="status-dot"></span>
-
-                NAVI ONLINE
-
-            </div>
-
-        </div>
-
-    </aside>
-
-
-
-    <!-- =========================
-         MAIN CONTENT
-    ========================== -->
-
-    <main class="content">
-
-
-        <!-- HEADER -->
-
-        <header class="topbar">
+        <div class="card-header">
 
             <div>
 
-                <button
-                    class="mobile-menu"
-                    onclick="toggleSidebar()"
+                <div class="card-title">
+                    Market Watch
+                </div>
+
+                <div class="card-subtitle">
+                    Live prices from your Exness MT5 feed
+                </div>
+
+            </div>
+
+            <span class="badge badge-green">
+                LIVE
+            </span>
+
+        </div>
+
+
+        <div class="grid grid-5">
+
+            <div
+                class="card market-card market-select active-market"
+                onclick="selectMarket('BTCUSD')"
+                id="card-BTCUSD"
+            >
+
+                <div class="market-symbol">
+                    BTCUSD
+                </div>
+
+                <div
+                    class="market-price"
+                    id="price-BTCUSD"
                 >
-                    ☰
-                </button>
+                    --
+                </div>
 
-
-                <h1 class="page-title">
-                    Markets
-                </h1>
-
-
-                <p class="page-subtitle">
-                    Live market intelligence from MT5
-                </p>
+                <div
+                    class="market-change"
+                    id="change-BTCUSD"
+                >
+                    --
+                </div>
 
             </div>
 
 
-            <div class="connection-status">
+            <div
+                class="card market-card market-select"
+                onclick="selectMarket('XAUUSD')"
+                id="card-XAUUSD"
+            >
+
+                <div class="market-symbol">
+                    XAUUSD
+                </div>
+
+                <div
+                    class="market-price"
+                    id="price-XAUUSD"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change"
+                    id="change-XAUUSD"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div
+                class="card market-card market-select"
+                onclick="selectMarket('EURUSD')"
+                id="card-EURUSD"
+            >
+
+                <div class="market-symbol">
+                    EURUSD
+                </div>
+
+                <div
+                    class="market-price"
+                    id="price-EURUSD"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change"
+                    id="change-EURUSD"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div
+                class="card market-card market-select"
+                onclick="selectMarket('US30')"
+                id="card-US30"
+            >
+
+                <div class="market-symbol">
+                    US30
+                </div>
+
+                <div
+                    class="market-price"
+                    id="price-US30"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change"
+                    id="change-US30"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div
+                class="card market-card market-select"
+                onclick="selectMarket('NAS100')"
+                id="card-NAS100"
+            >
+
+                <div class="market-symbol">
+                    NAS100
+                </div>
+
+                <div
+                    class="market-price"
+                    id="price-NAS100"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change"
+                    id="change-NAS100"
+                >
+                    --
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CHART -->
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div
+                        class="card-title"
+                        id="chart-title"
+                    >
+                        BTCUSD
+                    </div>
+
+                    <div
+                        class="card-subtitle"
+                        id="chart-subtitle"
+                    >
+                        Live MT5 price movement
+                    </div>
+
+                </div>
 
                 <span
-                    class="status-dot"
-                    id="connection-dot"
-                ></span>
-
-                <span id="connection-text">
-                    CONNECTING
+                    class="badge badge-green"
+                    id="chart-trend"
+                >
+                    LOADING
                 </span>
 
             </div>
 
-        </header>
+
+            <div class="chart-price-row">
+
+                <div
+                    id="chart-price"
+                    class="chart-current-price"
+                >
+                    --
+                </div>
+
+                <div
+                    id="chart-bidask"
+                    class="chart-bidask"
+                >
+                    Bid: -- | Ask: --
+                </div>
+
+            </div>
 
 
+            <!-- TIMEFRAMES -->
+            <div class="timeframe-row">
 
-        <!-- =========================
-             MARKET WATCH
-        ========================== -->
+                <button
+                    class="btn btn-secondary timeframe active-timeframe"
+                    onclick="changeTimeframe('M1', this)"
+                >
+                    1M
+                </button>
 
-        <section class="section">
+                <button
+                    class="btn btn-secondary timeframe"
+                    onclick="changeTimeframe('M5', this)"
+                >
+                    5M
+                </button>
+
+                <button
+                    class="btn btn-secondary timeframe"
+                    onclick="changeTimeframe('M15', this)"
+                >
+                    15M
+                </button>
+
+                <button
+                    class="btn btn-secondary timeframe"
+                    onclick="changeTimeframe('H1', this)"
+                >
+                    1H
+                </button>
+
+                <button
+                    class="btn btn-secondary timeframe"
+                    onclick="changeTimeframe('H4', this)"
+                >
+                    4H
+                </button>
+
+                <button
+                    class="btn btn-secondary timeframe"
+                    onclick="changeTimeframe('D1', this)"
+                >
+                    1D
+                </button>
+
+            </div>
+
+
+            <!-- CHART -->
+            <div
+                id="price-chart"
+                class="price-chart"
+            ></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MARKET DATA -->
+    <section class="section">
+
+        <div class="grid grid-4">
+
+            <div class="card">
+
+                <div class="metric-label">
+                    BID
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="detail-bid"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    ASK
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="detail-ask"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    SPREAD
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="detail-spread"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    TREND
+                </div>
+
+                <div
+                    class="metric-value positive"
+                    id="detail-trend"
+                >
+                    --
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- NAVI INTELLIGENCE -->
+    <section class="section">
+
+        <div class="card">
 
             <div class="card-header">
 
                 <div>
 
                     <div class="card-title">
-                        Market Watch
+                        NAVI Market Intelligence
                     </div>
 
                     <div class="card-subtitle">
-                        Live prices from your Exness MT5 feed
+                        Real-time interpretation of the selected market
                     </div>
 
                 </div>
 
-
-                <span class="badge badge-green">
-                    LIVE
+                <span class="badge badge-gold">
+                    NAVI AI
                 </span>
 
             </div>
 
 
+            <div class="analysis-panel">
 
-            <div class="grid grid-5">
+                <div class="analysis-row">
 
+                    <span class="analysis-label">
+                        Selected Market
+                    </span>
 
-                <!-- BTC -->
-
-                <div
-                    class="card market-card market-select active-market"
-                    onclick="selectMarket('BTCUSD')"
-                    id="card-BTCUSD"
-                >
-
-                    <div class="market-symbol">
+                    <span
+                        class="analysis-value"
+                        id="analysis-symbol"
+                    >
                         BTCUSD
-                    </div>
-
-                    <div
-                        class="market-price"
-                        id="price-BTCUSD"
-                    >
-                        --
-                    </div>
-
-                    <div
-                        class="market-change"
-                        id="change-BTCUSD"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-
-                <!-- GOLD -->
-
-                <div
-                    class="card market-card market-select"
-                    onclick="selectMarket('XAUUSD')"
-                    id="card-XAUUSD"
-                >
-
-                    <div class="market-symbol">
-                        XAUUSD
-                    </div>
-
-                    <div
-                        class="market-price"
-                        id="price-XAUUSD"
-                    >
-                        --
-                    </div>
-
-                    <div
-                        class="market-change"
-                        id="change-XAUUSD"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-
-                <!-- EUR -->
-
-                <div
-                    class="card market-card market-select"
-                    onclick="selectMarket('EURUSD')"
-                    id="card-EURUSD"
-                >
-
-                    <div class="market-symbol">
-                        EURUSD
-                    </div>
-
-                    <div
-                        class="market-price"
-                        id="price-EURUSD"
-                    >
-                        --
-                    </div>
-
-                    <div
-                        class="market-change"
-                        id="change-EURUSD"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-
-                <!-- US30 -->
-
-                <div
-                    class="card market-card market-select"
-                    onclick="selectMarket('US30')"
-                    id="card-US30"
-                >
-
-                    <div class="market-symbol">
-                        US30
-                    </div>
-
-                    <div
-                        class="market-price"
-                        id="price-US30"
-                    >
-                        --
-                    </div>
-
-                    <div
-                        class="market-change"
-                        id="change-US30"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-
-                <!-- NAS100 -->
-
-                <div
-                    class="card market-card market-select"
-                    onclick="selectMarket('NAS100')"
-                    id="card-NAS100"
-                >
-
-                    <div class="market-symbol">
-                        NAS100
-                    </div>
-
-                    <div
-                        class="market-price"
-                        id="price-NAS100"
-                    >
-                        --
-                    </div>
-
-                    <div
-                        class="market-change"
-                        id="change-NAS100"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-             CHART
-        ========================== -->
-
-        <section class="section">
-
-            <div class="card">
-
-
-                <!-- CHART HEADER -->
-
-                <div class="card-header">
-
-                    <div>
-
-                        <div
-                            class="card-title"
-                            id="chart-title"
-                        >
-                            BTCUSD
-                        </div>
-
-                        <div
-                            class="card-subtitle"
-                            id="chart-subtitle"
-                        >
-                            Live MT5 price movement
-                        </div>
-
-                    </div>
-
-
-                    <div>
-
-                        <span
-                            class="badge badge-green"
-                            id="chart-trend"
-                        >
-                            LOADING
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- PRICE -->
-
-                <div
-                    style="
-                    display:flex;
-                    align-items:center;
-                    gap:15px;
-                    margin-bottom:15px;
-                    "
-                >
-
-                    <div
-                        id="chart-price"
-                        style="
-                        font-size:28px;
-                        font-weight:700;
-                        "
-                    >
-                        --
-                    </div>
-
-
-                    <div
-                        id="chart-bidask"
-                        style="
-                        color:var(--text-muted);
-                        font-size:10px;
-                        "
-                    >
-                        Bid: -- | Ask: --
-                    </div>
-
-                </div>
-
-
-
-                <!-- TIMEFRAME -->
-
-                <div
-                    style="
-                    display:flex;
-                    gap:6px;
-                    margin-bottom:15px;
-                    flex-wrap:wrap;
-                    "
-                >
-
-                    <button
-                        class="btn btn-secondary timeframe active-timeframe"
-                        onclick="changeTimeframe('M1', this)"
-                    >
-                        1M
-                    </button>
-
-
-                    <button
-                        class="btn btn-secondary timeframe"
-                        onclick="changeTimeframe('M5', this)"
-                    >
-                        5M
-                    </button>
-
-
-                    <button
-                        class="btn btn-secondary timeframe"
-                        onclick="changeTimeframe('M15', this)"
-                    >
-                        15M
-                    </button>
-
-
-                    <button
-                        class="btn btn-secondary timeframe"
-                        onclick="changeTimeframe('H1', this)"
-                    >
-                        1H
-                    </button>
-
-
-                    <button
-                        class="btn btn-secondary timeframe"
-                        onclick="changeTimeframe('H4', this)"
-                    >
-                        4H
-                    </button>
-
-
-                    <button
-                        class="btn btn-secondary timeframe"
-                        onclick="changeTimeframe('D1', this)"
-                    >
-                        1D
-                    </button>
-
-                </div>
-
-
-
-                <!-- CHART CONTAINER -->
-
-                <div
-                    id="price-chart"
-                    style="
-                    width:100%;
-                    height:480px;
-                    background:#06130f;
-                    border:1px solid var(--border);
-                    border-radius:7px;
-                    overflow:hidden;
-                    "
-                ></div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-             MARKET DATA
-        ========================== -->
-
-        <section class="section">
-
-            <div class="grid grid-4">
-
-
-                <div class="card">
-
-                    <div class="metric-label">
-                        BID
-                    </div>
-
-                    <div
-                        class="metric-value"
-                        id="detail-bid"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="metric-label">
-                        ASK
-                    </div>
-
-                    <div
-                        class="metric-value"
-                        id="detail-ask"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="metric-label">
-                        SPREAD
-                    </div>
-
-                    <div
-                        class="metric-value"
-                        id="detail-spread"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="metric-label">
-                        TREND
-                    </div>
-
-                    <div
-                        class="metric-value positive"
-                        id="detail-trend"
-                    >
-                        --
-                    </div>
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-
-        <!-- =========================
-             NAVI INTELLIGENCE
-        ========================== -->
-
-        <section class="section">
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <div>
-
-                        <div class="card-title">
-                            NAVI Market Intelligence
-                        </div>
-
-                        <div class="card-subtitle">
-                            Real-time interpretation of the selected market
-                        </div>
-
-                    </div>
-
-
-                    <span class="badge badge-gold">
-                        NAVI AI
                     </span>
 
                 </div>
 
 
-                <div class="analysis-panel">
+                <div class="analysis-row">
 
-                    <div class="analysis-row">
+                    <span class="analysis-label">
+                        Current Price
+                    </span>
 
-                        <span class="analysis-label">
-                            Selected Market
-                        </span>
+                    <span
+                        class="analysis-value"
+                        id="analysis-price"
+                    >
+                        --
+                    </span>
 
-                        <span
-                            class="analysis-value"
-                            id="analysis-symbol"
-                        >
-                            BTCUSD
-                        </span>
-
-                    </div>
+                </div>
 
 
-                    <div class="analysis-row">
+                <div class="analysis-row">
 
-                        <span class="analysis-label">
-                            Current Price
-                        </span>
+                    <span class="analysis-label">
+                        Market Trend
+                    </span>
 
-                        <span
-                            class="analysis-value"
-                            id="analysis-price"
-                        >
-                            --
-                        </span>
+                    <span
+                        class="analysis-value positive"
+                        id="analysis-trend"
+                    >
+                        --
+                    </span>
 
-                    </div>
-
-
-                    <div class="analysis-row">
-
-                        <span class="analysis-label">
-                            Market Trend
-                        </span>
-
-                        <span
-                            class="analysis-value positive"
-                            id="analysis-trend"
-                        >
-                            --
-                        </span>
-
-                    </div>
+                </div>
 
 
-                    <div class="analysis-row">
+                <div class="analysis-row">
 
-                        <span class="analysis-label">
-                            Feed Status
-                        </span>
+                    <span class="analysis-label">
+                        Feed Status
+                    </span>
 
-                        <span
-                            class="analysis-value positive"
-                            id="analysis-status"
-                        >
-                            CONNECTING
-                        </span>
-
-                    </div>
+                    <span
+                        class="analysis-value positive"
+                        id="analysis-status"
+                    >
+                        CONNECTING
+                    </span>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
+    </section>
 
-    </main>
+</main>
+```
 
 </div>
-
-
 
 <script>
 
@@ -743,7 +598,7 @@
 
 
 /*
-    Your existing backend
+    LIVE NAVI BACKEND
 */
 
 const BACKEND_URL =
@@ -751,14 +606,14 @@ const BACKEND_URL =
 
 
 /*
-    Current selected market
+    Selected market
 */
 
 let selectedMarket = "BTCUSD";
 
 
 /*
-    Current timeframe
+    Selected timeframe
 */
 
 let selectedTimeframe = "M1";
@@ -784,76 +639,115 @@ const symbols = {
 
 
 /* ==========================================
-   CHART
+   CHART SETUP
 ========================================== */
 
 const chartContainer =
     document.getElementById("price-chart");
 
 
-const chart =
-    LightweightCharts.createChart(
-        chartContainer,
-        {
+let chart = null;
 
-            layout: {
+let candleSeries = null;
 
-                background: {
-                    color: "#06130f"
+
+/*
+    Create chart only after
+    Lightweight Charts has loaded.
+*/
+
+function createChart() {
+
+    if (
+        typeof LightweightCharts === "undefined"
+    ) {
+
+        console.error(
+            "Lightweight Charts library did not load."
+        );
+
+        return false;
+
+    }
+
+
+    chart =
+        LightweightCharts.createChart(
+            chartContainer,
+            {
+
+                width:
+                    chartContainer.clientWidth,
+
+                height: 480,
+
+                layout: {
+
+                    background: {
+                        color: "#06130f"
+                    },
+
+                    textColor: "#91aa9d"
+
                 },
 
-                textColor: "#91aa9d"
+                grid: {
 
-            },
+                    vertLines: {
+                        color: "#0f2b20"
+                    },
 
-            grid: {
+                    horzLines: {
+                        color: "#0f2b20"
+                    }
 
-                vertLines: {
-                    color: "#0f2b20"
                 },
 
-                horzLines: {
-                    color: "#0f2b20"
+                rightPriceScale: {
+
+                    borderColor: "#174332"
+
+                },
+
+                timeScale: {
+
+                    borderColor: "#174332",
+
+                    timeVisible: true,
+
+                    secondsVisible: false
+
                 }
 
-            },
-
-            rightPriceScale: {
-
-                borderColor: "#174332"
-
-            },
-
-            timeScale: {
-
-                borderColor: "#174332",
-
-                timeVisible: true,
-
-                secondsVisible: false
-
             }
-
-        }
-    );
+        );
 
 
-const candleSeries =
-    chart.addCandlestickSeries({
+    /*
+        Lightweight Charts 4.2 API
+    */
 
-        upColor: "#18c77a",
+    candleSeries =
+        chart.addCandlestickSeries({
 
-        downColor: "#ef5b63",
+            upColor: "#18c77a",
 
-        borderUpColor: "#18c77a",
+            downColor: "#ef5b63",
 
-        borderDownColor: "#ef5b63",
+            borderUpColor: "#18c77a",
 
-        wickUpColor: "#18c77a",
+            borderDownColor: "#ef5b63",
 
-        wickDownColor: "#ef5b63"
+            wickUpColor: "#18c77a",
 
-    });
+            wickDownColor: "#ef5b63"
+
+        });
+
+
+    return true;
+
+}
 
 
 /* ==========================================
@@ -862,21 +756,32 @@ const candleSeries =
 
 async function loadCandles() {
 
+    if (!candleSeries) {
+        return;
+    }
+
+
     try {
 
         const symbol =
             symbols[selectedMarket];
 
 
+        const url =
+            BACKEND_URL +
+            "/markets?symbol=" +
+            encodeURIComponent(symbol) +
+            "&timeframe=" +
+            encodeURIComponent(selectedTimeframe);
+
+
         const response =
             await fetch(
-
-                BACKEND_URL +
-                "/markets?symbol=" +
-                encodeURIComponent(symbol) +
-                "&timeframe=" +
-                encodeURIComponent(selectedTimeframe)
-
+                url,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
             );
 
 
@@ -894,48 +799,102 @@ async function loadCandles() {
             await response.json();
 
 
-        /*
-            The backend can return candles
-            under data.candles.
-        */
-
         if (
-            data.candles &&
-            Array.isArray(data.candles)
+            !Array.isArray(
+                data.candles
+            )
         ) {
 
-            const candles =
-                data.candles.map(candle => ({
-
-                    time: Number(
-                        candle.time
-                    ),
-
-                    open: Number(
-                        candle.open
-                    ),
-
-                    high: Number(
-                        candle.high
-                    ),
-
-                    low: Number(
-                        candle.low
-                    ),
-
-                    close: Number(
-                        candle.close
-                    )
-
-                }));
-
-
-            candleSeries.setData(candles);
-
-
-            chart.timeScale().fitContent();
+            throw new Error(
+                "Backend did not return candle data."
+            );
 
         }
+
+
+        const candles =
+            data.candles
+                .map(candle => ({
+
+                    time:
+                        Number(candle.time),
+
+                    open:
+                        Number(candle.open),
+
+                    high:
+                        Number(candle.high),
+
+                    low:
+                        Number(candle.low),
+
+                    close:
+                        Number(candle.close)
+
+                }))
+                .filter(candle =>
+
+                    Number.isFinite(candle.time) &&
+
+                    Number.isFinite(candle.open) &&
+
+                    Number.isFinite(candle.high) &&
+
+                    Number.isFinite(candle.low) &&
+
+                    Number.isFinite(candle.close)
+
+                )
+                .sort(
+                    (a, b) =>
+                        a.time - b.time
+                );
+
+
+        if (!candles.length) {
+
+            throw new Error(
+                "No valid candles received."
+            );
+
+        }
+
+
+        /*
+            Remove duplicate timestamps.
+        */
+
+        const uniqueCandles = [];
+
+        let lastTime = null;
+
+
+        for (
+            const candle of candles
+        ) {
+
+            if (
+                candle.time !== lastTime
+            ) {
+
+                uniqueCandles.push(
+                    candle
+                );
+
+                lastTime =
+                    candle.time;
+
+            }
+
+        }
+
+
+        candleSeries.setData(
+            uniqueCandles
+        );
+
+
+        chart.timeScale().fitContent();
 
 
         setConnection(true);
@@ -948,7 +907,11 @@ async function loadCandles() {
             error
         );
 
-        setConnection(false);
+        /*
+            Do not immediately mark the
+            entire market feed offline
+            because candle loading failed.
+        */
 
     }
 
@@ -965,7 +928,12 @@ async function loadMarkets() {
 
         const response =
             await fetch(
-                BACKEND_URL + "/markets"
+                BACKEND_URL +
+                "/markets",
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
             );
 
 
@@ -981,22 +949,6 @@ async function loadMarkets() {
 
         const data =
             await response.json();
-
-
-        /*
-            Expected:
-
-            {
-                markets: {
-                    BTCUSD: {...},
-                    XAUUSD: {...},
-                    EURUSD: {...},
-                    US30: {...},
-                    NAS100: {...}
-                }
-            }
-
-        */
 
 
         const markets =
@@ -1039,7 +991,9 @@ async function loadMarkets() {
 
         if (current) {
 
-            updateSelectedMarket(current);
+            updateSelectedMarket(
+                current
+            );
 
         }
 
@@ -1089,8 +1043,8 @@ function updateMarket(
 
     const price =
         Number(
-            market.price ||
-            market.current_price ||
+            market.price ??
+            market.current_price ??
             0
         );
 
@@ -1102,9 +1056,7 @@ function updateMarket(
     if (priceElement) {
 
         priceElement.textContent =
-            formatPrice(
-                price
-            );
+            formatPrice(price);
 
     }
 
@@ -1117,28 +1069,30 @@ function updateMarket(
         ) {
 
             changeElement.textContent =
-                formatChange(
-                    change
-                );
+                formatChange(change);
 
 
             if (
                 Number(change) >= 0
             ) {
 
-                changeElement.classList
-                    .add("positive");
+                changeElement.classList.add(
+                    "positive"
+                );
 
-                changeElement.classList
-                    .remove("negative");
+                changeElement.classList.remove(
+                    "negative"
+                );
 
             } else {
 
-                changeElement.classList
-                    .add("negative");
+                changeElement.classList.add(
+                    "negative"
+                );
 
-                changeElement.classList
-                    .remove("positive");
+                changeElement.classList.remove(
+                    "positive"
+                );
 
             }
 
@@ -1165,29 +1119,29 @@ function updateSelectedMarket(
 
     const price =
         Number(
-            market.price ||
-            market.current_price ||
+            market.price ??
+            market.current_price ??
             0
         );
 
 
     const bid =
         Number(
-            market.bid ||
+            market.bid ??
             price
         );
 
 
     const ask =
         Number(
-            market.ask ||
+            market.ask ??
             price
         );
 
 
     const trend =
         market.trend ||
-        "UNKNOWN";
+        "LIVE";
 
 
     const spread =
@@ -1283,10 +1237,9 @@ function selectMarket(
         )
         .forEach(card => {
 
-            card.classList
-                .remove(
-                    "active-market"
-                );
+            card.classList.remove(
+                "active-market"
+            );
 
         });
 
@@ -1299,10 +1252,9 @@ function selectMarket(
 
     if (selectedCard) {
 
-        selectedCard.classList
-            .add(
-                "active-market"
-            );
+        selectedCard.classList.add(
+            "active-market"
+        );
 
     }
 
@@ -1319,9 +1271,9 @@ function selectMarket(
         market;
 
 
-    loadCandles();
-
     loadMarkets();
+
+    loadCandles();
 
 }
 
@@ -1345,18 +1297,16 @@ function changeTimeframe(
         )
         .forEach(btn => {
 
-            btn.classList
-                .remove(
-                    "active-timeframe"
-                );
+            btn.classList.remove(
+                "active-timeframe"
+            );
 
         });
 
 
-    button.classList
-        .add(
-            "active-timeframe"
-        );
+    button.classList.add(
+        "active-timeframe"
+    );
 
 
     loadCandles();
@@ -1392,7 +1342,6 @@ function setConnection(
 
         status.textContent =
             "CONNECTED";
-
 
     } else {
 
@@ -1500,8 +1449,7 @@ function toggleSidebar() {
         .querySelector(
             ".sidebar"
         )
-        .classList
-        .toggle(
+        .classList.toggle(
             "open"
         );
 
@@ -1512,13 +1460,30 @@ function toggleSidebar() {
    INITIALIZE
 ========================================== */
 
-loadMarkets();
+function initializeNAVI() {
 
-loadCandles();
+    const chartReady =
+        createChart();
+
+
+    if (!chartReady) {
+
+        setConnection(false);
+
+        return;
+
+    }
+
+
+    loadMarkets();
+
+    loadCandles();
+
+}
 
 
 /*
-    Refresh live prices every 2 seconds.
+    Live price refresh.
 */
 
 setInterval(
@@ -1528,7 +1493,7 @@ setInterval(
 
 
 /*
-    Refresh candles every 5 seconds.
+    Candle refresh.
 */
 
 setInterval(
@@ -1538,30 +1503,41 @@ setInterval(
 
 
 /*
-    Resize chart when browser changes size.
+    Responsive chart.
 */
 
 window.addEventListener(
     "resize",
     () => {
 
-        chart.applyOptions({
+        if (
+            chart &&
+            chartContainer
+        ) {
 
-            width:
-                chartContainer
-                    .clientWidth
+            chart.applyOptions({
 
-        });
+                width:
+                    chartContainer
+                        .clientWidth
+
+            });
+
+        }
 
     }
 );
 
+
+/*
+    Start NAVI.
+*/
+
+initializeNAVI();
+
 </script>
 
-
 <style>
-
-/* Selected market */
 
 .market-select {
     cursor: pointer;
@@ -1592,8 +1568,6 @@ window.addEventListener(
 }
 
 
-/* Selected timeframe */
-
 .active-timeframe {
     background:
         var(--green) !important;
@@ -1605,10 +1579,45 @@ window.addEventListener(
         var(--green) !important;
 }
 
+
+.chart-price-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+
+.chart-current-price {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+.chart-bidask {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+
+.timeframe-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+
+.price-chart {
+    width: 100%;
+    height: 480px;
+    background: #06130f;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    overflow: hidden;
+}
+
 </style>
 
-
 </body>
-
 </html>
-```
