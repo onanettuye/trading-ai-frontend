@@ -2,18 +2,182 @@
 
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
 <title>NAVI | Markets</title>
 
 <link rel="stylesheet" href="css/style.css">
 
 <!-- Lightweight Charts -->
-<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
-```
+<script
+    src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js">
+</script>
+
+<style>
+
+    .market-select {
+        cursor: pointer;
+        transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .market-select:hover {
+        transform: translateY(-2px);
+        border-color: var(--green);
+    }
+
+    .active-market {
+        border-color: var(--green) !important;
+        box-shadow:
+            0 0 0 1px rgba(24, 199, 122, 0.15),
+            0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .active-timeframe {
+        background: var(--green) !important;
+        color: #03110a !important;
+        border-color: var(--green) !important;
+    }
+
+    .chart-price-row {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+
+    .chart-current-price {
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .chart-bidask {
+        color: var(--text-muted);
+        font-size: 11px;
+    }
+
+    .timeframe-row {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+    }
+
+    .price-chart-wrapper {
+        position: relative;
+        width: 100%;
+        height: 480px;
+    }
+
+    .price-chart {
+        width: 100%;
+        height: 480px;
+        background: #06130f;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        overflow: hidden;
+    }
+
+    .chart-status {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+
+        padding: 12px 18px;
+
+        background: rgba(3, 17, 10, 0.92);
+        border: 1px solid var(--border);
+        border-radius: 7px;
+
+        color: var(--text-secondary);
+
+        font-size: 12px;
+        text-align: center;
+
+        max-width: 80%;
+
+        display: none;
+    }
+
+    .chart-status.visible {
+        display: block;
+    }
+
+    .chart-status.error {
+        color: #ef5b63;
+    }
+
+    .chart-status.success {
+        color: #18c77a;
+    }
+
+    .chart-debug {
+        margin-top: 8px;
+        font-size: 10px;
+        color: var(--text-muted);
+        min-height: 14px;
+    }
+
+    .feed-online {
+        color: #18c77a !important;
+    }
+
+    .feed-offline {
+        color: #ef5b63 !important;
+    }
+
+    .feed-loading {
+        color: var(--text-secondary) !important;
+    }
+
+    .positive {
+        color: #18c77a !important;
+    }
+
+    .negative {
+        color: #ef5b63 !important;
+    }
+
+    .connection-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #f0ad4e;
+        box-shadow: 0 0 8px rgba(240, 173, 78, 0.5);
+    }
+
+    .status-dot.online {
+        background: #18c77a;
+        box-shadow: 0 0 10px rgba(24, 199, 122, 0.7);
+    }
+
+    .status-dot.offline {
+        background: #ef5b63;
+        box-shadow: 0 0 10px rgba(239, 91, 99, 0.6);
+    }
+
+    @media (max-width: 700px) {
+
+        .price-chart,
+        .price-chart-wrapper {
+            height: 380px;
+        }
+
+        .chart-current-price {
+            font-size: 22px;
+        }
+
+    }
+
+</style>
 
 </head>
 
@@ -21,14 +185,24 @@
 
 <div class="app">
 
-```
-<!-- SIDEBAR -->
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
 <aside class="sidebar">
 
     <div class="logo">
-        <div class="logo-mark">N</div>
-        <div class="logo-text">NAVI</div>
+
+        <div class="logo-mark">
+            N
+        </div>
+
+        <div class="logo-text">
+            NAVI
+        </div>
+
     </div>
+
 
     <div class="nav-section">
 
@@ -53,6 +227,7 @@
 
     </div>
 
+
     <div class="nav-section">
 
         <div class="nav-section-title">
@@ -71,6 +246,7 @@
 
     </div>
 
+
     <div class="nav-section">
 
         <div class="nav-section-title">
@@ -84,11 +260,20 @@
 
     </div>
 
+
     <div class="sidebar-status">
 
         <div class="connection-status">
-            <span class="status-dot"></span>
-            NAVI ONLINE
+
+            <span
+                class="status-dot"
+                id="sidebar-status-dot">
+            </span>
+
+            <span id="sidebar-status">
+                CONNECTING
+            </span>
+
         </div>
 
     </div>
@@ -96,18 +281,22 @@
 </aside>
 
 
-<!-- MAIN -->
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
 <main class="content">
 
+
     <!-- HEADER -->
+
     <header class="topbar">
 
         <div>
 
             <button
                 class="mobile-menu"
-                onclick="toggleSidebar()"
-            >
+                onclick="toggleSidebar()">
                 ☰
             </button>
 
@@ -121,12 +310,13 @@
 
         </div>
 
+
         <div class="connection-status">
 
             <span
                 class="status-dot"
-                id="connection-dot"
-            ></span>
+                id="connection-dot">
+            </span>
 
             <span id="connection-text">
                 CONNECTING
@@ -137,7 +327,10 @@
     </header>
 
 
-    <!-- MARKET WATCH -->
+    <!-- =================================================
+         MARKET WATCH
+    ================================================== -->
+
     <section class="section">
 
         <div class="card-header">
@@ -154,8 +347,10 @@
 
             </div>
 
-            <span class="badge badge-green">
-                LIVE
+            <span
+                class="badge badge-green"
+                id="market-feed-badge">
+                CONNECTING
             </span>
 
         </div>
@@ -163,11 +358,13 @@
 
         <div class="grid grid-5">
 
+
+            <!-- BTC -->
+
             <div
                 class="card market-card market-select active-market"
-                onclick="selectMarket('BTCUSD')"
                 id="card-BTCUSD"
-            >
+                onclick="selectMarket('BTCUSD')">
 
                 <div class="market-symbol">
                     BTCUSD
@@ -175,26 +372,25 @@
 
                 <div
                     class="market-price"
-                    id="price-BTCUSD"
-                >
+                    id="price-BTCUSD">
                     --
                 </div>
 
                 <div
                     class="market-change"
-                    id="change-BTCUSD"
-                >
+                    id="change-BTCUSD">
                     --
                 </div>
 
             </div>
 
 
+            <!-- GOLD -->
+
             <div
                 class="card market-card market-select"
-                onclick="selectMarket('XAUUSD')"
                 id="card-XAUUSD"
-            >
+                onclick="selectMarket('XAUUSD')">
 
                 <div class="market-symbol">
                     XAUUSD
@@ -202,26 +398,25 @@
 
                 <div
                     class="market-price"
-                    id="price-XAUUSD"
-                >
+                    id="price-XAUUSD">
                     --
                 </div>
 
                 <div
                     class="market-change"
-                    id="change-XAUUSD"
-                >
+                    id="change-XAUUSD">
                     --
                 </div>
 
             </div>
 
 
+            <!-- EURUSD -->
+
             <div
                 class="card market-card market-select"
-                onclick="selectMarket('EURUSD')"
                 id="card-EURUSD"
-            >
+                onclick="selectMarket('EURUSD')">
 
                 <div class="market-symbol">
                     EURUSD
@@ -229,26 +424,25 @@
 
                 <div
                     class="market-price"
-                    id="price-EURUSD"
-                >
+                    id="price-EURUSD">
                     --
                 </div>
 
                 <div
                     class="market-change"
-                    id="change-EURUSD"
-                >
+                    id="change-EURUSD">
                     --
                 </div>
 
             </div>
 
 
+            <!-- US30 -->
+
             <div
                 class="card market-card market-select"
-                onclick="selectMarket('US30')"
                 id="card-US30"
-            >
+                onclick="selectMarket('US30')">
 
                 <div class="market-symbol">
                     US30
@@ -256,26 +450,25 @@
 
                 <div
                     class="market-price"
-                    id="price-US30"
-                >
+                    id="price-US30">
                     --
                 </div>
 
                 <div
                     class="market-change"
-                    id="change-US30"
-                >
+                    id="change-US30">
                     --
                 </div>
 
             </div>
 
 
+            <!-- NAS100 -->
+
             <div
                 class="card market-card market-select"
-                onclick="selectMarket('NAS100')"
                 id="card-NAS100"
-            >
+                onclick="selectMarket('NAS100')">
 
                 <div class="market-symbol">
                     NAS100
@@ -283,15 +476,13 @@
 
                 <div
                     class="market-price"
-                    id="price-NAS100"
-                >
+                    id="price-NAS100">
                     --
                 </div>
 
                 <div
                     class="market-change"
-                    id="change-NAS100"
-                >
+                    id="change-NAS100">
                     --
                 </div>
 
@@ -302,10 +493,14 @@
     </section>
 
 
-    <!-- CHART -->
+    <!-- =================================================
+         CHART
+    ================================================== -->
+
     <section class="section">
 
         <div class="card">
+
 
             <div class="card-header">
 
@@ -313,43 +508,40 @@
 
                     <div
                         class="card-title"
-                        id="chart-title"
-                    >
+                        id="chart-title">
                         BTCUSD
                     </div>
 
                     <div
                         class="card-subtitle"
-                        id="chart-subtitle"
-                    >
-                        Live MT5 price movement
+                        id="chart-subtitle">
+                        Live MT5 candlestick chart
                     </div>
 
                 </div>
 
                 <span
                     class="badge badge-green"
-                    id="chart-trend"
-                >
+                    id="chart-trend">
                     LOADING
                 </span>
 
             </div>
 
 
+            <!-- PRICE -->
+
             <div class="chart-price-row">
 
                 <div
                     id="chart-price"
-                    class="chart-current-price"
-                >
+                    class="chart-current-price">
                     --
                 </div>
 
                 <div
                     id="chart-bidask"
-                    class="chart-bidask"
-                >
+                    class="chart-bidask">
                     Bid: -- | Ask: --
                 </div>
 
@@ -357,47 +549,48 @@
 
 
             <!-- TIMEFRAMES -->
+
             <div class="timeframe-row">
 
                 <button
                     class="btn btn-secondary timeframe active-timeframe"
-                    onclick="changeTimeframe('M1', this)"
-                >
+                    data-timeframe="M1"
+                    onclick="changeTimeframe('M1', this)">
                     1M
                 </button>
 
                 <button
                     class="btn btn-secondary timeframe"
-                    onclick="changeTimeframe('M5', this)"
-                >
+                    data-timeframe="M5"
+                    onclick="changeTimeframe('M5', this)">
                     5M
                 </button>
 
                 <button
                     class="btn btn-secondary timeframe"
-                    onclick="changeTimeframe('M15', this)"
-                >
+                    data-timeframe="M15"
+                    onclick="changeTimeframe('M15', this)">
                     15M
                 </button>
 
                 <button
                     class="btn btn-secondary timeframe"
-                    onclick="changeTimeframe('H1', this)"
-                >
+                    data-timeframe="H1"
+                    onclick="changeTimeframe('H1', this)">
                     1H
                 </button>
 
                 <button
                     class="btn btn-secondary timeframe"
-                    onclick="changeTimeframe('H4', this)"
-                >
+                    data-timeframe="H4"
+                    onclick="changeTimeframe('H4', this)">
                     4H
                 </button>
 
                 <button
                     class="btn btn-secondary timeframe"
-                    onclick="changeTimeframe('D1', this)"
-                >
+                    data-timeframe="D1"
+                    onclick="changeTimeframe('D1', this)">
                     1D
                 </button>
 
@@ -405,20 +598,42 @@
 
 
             <!-- CHART -->
+
+            <div class="price-chart-wrapper">
+
+                <div
+                    id="price-chart"
+                    class="price-chart">
+                </div>
+
+                <div
+                    id="chart-status"
+                    class="chart-status visible">
+                    Loading candles...
+                </div>
+
+            </div>
+
+
             <div
-                id="price-chart"
-                class="price-chart"
-            ></div>
+                id="chart-debug"
+                class="chart-debug">
+                Connecting to MT5 candle feed...
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- MARKET DATA -->
+    <!-- =================================================
+         MARKET DETAILS
+    ================================================== -->
+
     <section class="section">
 
         <div class="grid grid-4">
+
 
             <div class="card">
 
@@ -428,8 +643,7 @@
 
                 <div
                     class="metric-value"
-                    id="detail-bid"
-                >
+                    id="detail-bid">
                     --
                 </div>
 
@@ -444,8 +658,7 @@
 
                 <div
                     class="metric-value"
-                    id="detail-ask"
-                >
+                    id="detail-ask">
                     --
                 </div>
 
@@ -460,8 +673,7 @@
 
                 <div
                     class="metric-value"
-                    id="detail-spread"
-                >
+                    id="detail-spread">
                     --
                 </div>
 
@@ -475,9 +687,8 @@
                 </div>
 
                 <div
-                    class="metric-value positive"
-                    id="detail-trend"
-                >
+                    class="metric-value"
+                    id="detail-trend">
                     --
                 </div>
 
@@ -488,7 +699,10 @@
     </section>
 
 
-    <!-- NAVI INTELLIGENCE -->
+    <!-- =================================================
+         NAVI INTELLIGENCE
+    ================================================== -->
+
     <section class="section">
 
         <div class="card">
@@ -516,6 +730,7 @@
 
             <div class="analysis-panel">
 
+
                 <div class="analysis-row">
 
                     <span class="analysis-label">
@@ -524,8 +739,7 @@
 
                     <span
                         class="analysis-value"
-                        id="analysis-symbol"
-                    >
+                        id="analysis-symbol">
                         BTCUSD
                     </span>
 
@@ -540,8 +754,7 @@
 
                     <span
                         class="analysis-value"
-                        id="analysis-price"
-                    >
+                        id="analysis-price">
                         --
                     </span>
 
@@ -555,9 +768,8 @@
                     </span>
 
                     <span
-                        class="analysis-value positive"
-                        id="analysis-trend"
-                    >
+                        class="analysis-value"
+                        id="analysis-trend">
                         --
                     </span>
 
@@ -571,9 +783,23 @@
                     </span>
 
                     <span
-                        class="analysis-value positive"
-                        id="analysis-status"
-                    >
+                        class="analysis-value"
+                        id="analysis-status">
+                        CONNECTING
+                    </span>
+
+                </div>
+
+
+                <div class="analysis-row">
+
+                    <span class="analysis-label">
+                        Candle Status
+                    </span>
+
+                    <span
+                        class="analysis-value"
+                        id="candle-status">
                         CONNECTING
                     </span>
 
@@ -586,1038 +812,9 @@
     </section>
 
 </main>
-```
 
 </div>
 
-<script>
+<script> /* ========================================================= NAVI MARKET TERMINAL ========================================================= */ /* ========================================================= BACKEND ========================================================= */ const BACKEND_URL = "https://cyberspace.tail754c2f.ts.net"; /* ========================================================= STATE ========================================================= */ let selectedMarket = "BTCUSD"; let selectedTimeframe = "M1"; let chart = null; let candleSeries = null; let marketRequestInProgress = false; let candleRequestInProgress = false; /* ========================================================= SYMBOL MAPPING ========================================================= */ const symbols = { BTCUSD: "BTCUSDz", XAUUSD: "XAUUSDz", EURUSD: "EURUSDz", US30: "US30z", NAS100: "USTECz" }; /* ========================================================= DOM ========================================================= */ const chartContainer = document.getElementById("price-chart"); const chartStatus = document.getElementById("chart-status"); const chartDebug = document.getElementById("chart-debug"); const candleStatus = document.getElementById("candle-status"); /* ========================================================= CHART STATUS ========================================================= */ function showChartStatus( message, type = "" ) { chartStatus.textContent = message; chartStatus.className = "chart-status visible"; if (type) { chartStatus.classList.add(type); } } function hideChartStatus() { chartStatus.classList.remove( "visible" ); } /* ========================================================= DEBUG MESSAGE ========================================================= */ function setChartDebug(message) { if (chartDebug) { chartDebug.textContent = message; } } /* ========================================================= CONNECTION ========================================================= */ function setConnection( connected ) { const dot = document.getElementById( "connection-dot" ); const sidebarDot = document.getElementById( "sidebar-status-dot" ); const text = document.getElementById( "connection-text" ); const sidebarText = document.getElementById( "sidebar-status" ); const analysisStatus = document.getElementById( "analysis-status" ); const badge = document.getElementById( "market-feed-badge" ); if (connected) { dot.className = "status-dot online"; sidebarDot.className = "status-dot online"; text.textContent = "MARKET FEED LIVE"; sidebarText.textContent = "NAVI ONLINE"; analysisStatus.textContent = "CONNECTED"; analysisStatus.className = "analysis-value feed-online"; badge.textContent = "LIVE"; } else { dot.className = "status-dot offline"; sidebarDot.className = "status-dot offline"; text.textContent = "MARKET FEED OFFLINE"; sidebarText.textContent = "CONNECTION ERROR"; analysisStatus.textContent = "OFFLINE"; analysisStatus.className = "analysis-value feed-offline"; badge.textContent = "OFFLINE"; } } /* ========================================================= CANDLE CONNECTION ========================================================= */ function setCandleConnection( connected, message = "" ) { if (connected) { candleStatus.textContent = "LIVE"; candleStatus.className = "analysis-value feed-online"; if (message) { setChartDebug(message); } } else { candleStatus.textContent = "NO DATA"; candleStatus.className = "analysis-value feed-offline"; if (message) { setChartDebug(message); } } } /* ========================================================= CREATE CHART ========================================================= */ function createChart() { if ( typeof LightweightCharts === "undefined" ) { showChartStatus( "Chart library failed to load.", "error" ); setChartDebug( "Lightweight Charts JavaScript library is unavailable." ); return false; } if (!chartContainer) { return false; } chart = LightweightCharts.createChart( chartContainer, { width: chartContainer.clientWidth || 800, height: 480, layout: { background: { color: "#06130f" }, textColor: "#91aa9d" }, grid: { vertLines: { color: "#0f2b20" }, horzLines: { color: "#0f2b20" } }, crosshair: { mode: LightweightCharts.CrosshairMode.Normal }, rightPriceScale: { borderColor: "#174332", autoScale: true }, timeScale: { borderColor: "#174332", timeVisible: true, secondsVisible: false, rightOffset: 5, barSpacing: 8 } } ); candleSeries = chart.addCandlestickSeries({ upColor: "#18c77a", downColor: "#ef5b63", borderUpColor: "#18c77a", borderDownColor: "#ef5b63", wickUpColor: "#18c77a", wickDownColor: "#ef5b63" }); return true; } /* ========================================================= NORMALIZE TIME ========================================================= */ function normalizeTime( value ) { if ( value === null || value === undefined ) { return null; } /* ----------------------------------------- Numeric timestamp ----------------------------------------- */ if ( typeof value === "number" || !isNaN(Number(value)) ) { let timestamp = Number(value); if ( !Number.isFinite(timestamp) ) { return null; } /* MT5 / APIs sometimes return milliseconds instead of seconds. */ if ( timestamp > 100000000000 ) { timestamp = Math.floor( timestamp / 1000 ); } /* Lightweight Charts expects Unix timestamp in seconds. */ return Math.floor(timestamp); } /* ----------------------------------------- ISO / date string ----------------------------------------- */ const parsed = Date.parse(value); if ( Number.isFinite(parsed) ) { return Math.floor( parsed / 1000 ); } return null; } /* ========================================================= EXTRACT CANDLE ARRAY ========================================================= */ function extractCandles( data ) { if (!data) { return []; } /* ----------------------------------------- Direct arrays ----------------------------------------- */ if ( Array.isArray(data) ) { return data; } /* ----------------------------------------- Common API structures ----------------------------------------- */ const possibleKeys = [ "candles", "data", "bars", "ohlc", "history", "rates" ]; for ( const key of possibleKeys ) { if ( Array.isArray(data[key]) ) { return data[key]; } } /* ----------------------------------------- Nested result/data ----------------------------------------- */ if ( data.result ) { const result = extractCandles( data.result ); if ( result.length ) { return result; } } return []; } /* ========================================================= NORMALIZE ONE CANDLE ========================================================= */ function normalizeCandle( raw ) { if (!raw) { return null; } /* Supports: { time, open, high, low, close } and common aliases. */ const rawTime = raw.time ?? raw.timestamp ?? raw.datetime ?? raw.date ?? raw.Time ?? raw.TIME; const rawOpen = raw.open ?? raw.Open ?? raw.o; const rawHigh = raw.high ?? raw.High ?? raw.h; const rawLow = raw.low ?? raw.Low ?? raw.l; const rawClose = raw.close ?? raw.Close ?? raw.c; const time = normalizeTime( rawTime ); const open = Number(rawOpen); const high = Number(rawHigh); const low = Number(rawLow); const close = Number(rawClose); if ( !Number.isFinite(time) || !Number.isFinite(open) || !Number.isFinite(high) || !Number.isFinite(low) || !Number.isFinite(close) ) { return null; } if ( open <= 0 || high <= 0 || low <= 0 || close <= 0 ) { return null; } /* Protect Lightweight Charts from malformed OHLC data. */ if ( high < Math.max(open, close) || low > Math.min(open, close) || high < low ) { return null; } return { time, open, high, low, close }; } /* ========================================================= NORMALIZE ALL CANDLES ========================================================= */ function normalizeCandles( rawCandles ) { const normalized = []; for ( const raw of rawCandles ) { /* Some APIs return arrays: [ time, open, high, low, close ] */ if ( Array.isArray(raw) ) { const converted = { time: raw[0], open: raw[1], high: raw[2], low: raw[3], close: raw[4] }; const candle = normalizeCandle( converted ); if (candle) { normalized.push( candle ); } } else { const candle = normalizeCandle( raw ); if (candle) { normalized.push( candle ); } } } /* Sort oldest -> newest. */ normalized.sort( (a, b) => a.time - b.time ); /* Remove duplicate timestamps. */ const unique = []; let previousTime = null; for ( const candle of normalized ) { if ( candle.time !== previousTime ) { unique.push( candle ); previousTime = candle.time; } } return unique; } /* ========================================================= CANDLE ENDPOINTS ========================================================= */ function buildCandleURLs() { const symbol = symbols[selectedMarket]; const timeframe = selectedTimeframe; const encodedSymbol = encodeURIComponent( symbol ); const encodedTimeframe = encodeURIComponent( timeframe ); return [ /* Current endpoint */ `${BACKEND_URL}/markets?symbol=${encodedSymbol}&timeframe=${encodedTimeframe}`, /* Possible dedicated candle endpoint */ `${BACKEND_URL}/candles?symbol=${encodedSymbol}&timeframe=${encodedTimeframe}`, /* Possible market candle endpoint */ `${BACKEND_URL}/markets/candles?symbol=${encodedSymbol}&timeframe=${encodedTimeframe}` ]; } /* ========================================================= FETCH JSON ========================================================= */ async function fetchJSON( url ) { const response = await fetch( url, { method: "GET", cache: "no-store", headers: { "Accept": "application/json" } } ); if (!response.ok) { throw new Error( `HTTP ${response.status}` ); } return await response.json(); } /* ========================================================= LOAD CANDLES ========================================================= */ async function loadCandles() { if ( !candleSeries ) { return; } if ( candleRequestInProgress ) { return; } candleRequestInProgress = true; showChartStatus( `Loading ${selectedMarket} ${selectedTimeframe} candles...` ); setCandleConnection( false, "Requesting MT5 historical candle data..." ); const urls = buildCandleURLs(); let lastError = null; try { for ( const url of urls ) { try { setChartDebug( `Requesting: ${selectedMarket} ${selectedTimeframe}` ); const data = await fetchJSON( url ); const rawCandles = extractCandles( data ); const candles = normalizeCandles( rawCandles ); /* We found a valid candle response. */ if ( candles.length >= 2 ) { candleSeries.setData( candles ); chart.timeScale() .fitContent(); /* Move slightly away from the right edge. */ chart.timeScale() .scrollToRealTime(); hideChartStatus(); setCandleConnection( true, `${candles.length} candles loaded • ${selectedMarket} • ${selectedTimeframe}` ); candleRequestInProgress = false; return; } lastError = new Error( "Endpoint responded but contained no valid candles." ); } catch (error) { lastError = error; console.warn( "Candle endpoint failed:", url, error ); } } /* All endpoints failed. */ throw ( lastError || new Error( "No candle data received." ) ); } catch (error) { console.error( "NAVI candle error:", error ); showChartStatus( "No candle data received from MT5 backend.", "error" ); setCandleConnection( false, `Candle error: ${error.message}` ); } finally { candleRequestInProgress = false; } } /* ========================================================= LOAD LIVE MARKET PRICES ========================================================= */ async function loadMarkets() { if ( marketRequestInProgress ) { return; } marketRequestInProgress = true; try { /* Do not add symbol/timeframe here. This request is for the market watch/current prices. */ const url = `${BACKEND_URL}/markets`; const data = await fetchJSON( url ); const markets = data.markets || data.data || data; if ( !markets || typeof markets !== "object" ) { throw new Error( "Backend returned an invalid market response." ); } updateMarket( "BTCUSD", findMarket( markets, "BTCUSD" ) ); updateMarket( "XAUUSD", findMarket( markets, "XAUUSD" ) ); updateMarket( "EURUSD", findMarket( markets, "EURUSD" ) ); updateMarket( "US30", findMarket( markets, "US30" ) ); updateMarket( "NAS100", findMarket( markets, "NAS100" ) ); const selected = findMarket( markets, selectedMarket ); if ( selected ) { updateSelectedMarket( selected ); } setConnection( true ); } catch (error) { console.error( "NAVI market error:", error ); setConnection( false ); } finally { marketRequestInProgress = false; } } /* ========================================================= FIND MARKET ========================================================= */ function findMarket( markets, name ) { if ( markets[name] ) { return markets[name]; } const brokerSymbol = symbols[name]; if ( markets[brokerSymbol] ) { return markets[ brokerSymbol ]; } /* Case-insensitive search. */ const target = name.toLowerCase(); for ( const key of Object.keys(markets) ) { if ( key.toLowerCase() === target ) { return markets[key]; } } return null; } /* ========================================================= UPDATE MARKET CARD ========================================================= */ function updateMarket( name, market ) { if ( !market ) { return; } const priceElement = document.getElementById( `price-${name}` ); const changeElement = document.getElementById( `change-${name}` ); const price = Number( market.price ?? market.current_price ?? market.last ?? market.close ?? 0 ); const change = market.change ?? market.change_percent ?? market.percent_change; if ( priceElement && Number.isFinite(price) && price > 0 ) { priceElement.textContent = formatPrice( price ); } if ( changeElement ) { if ( change !== undefined && change !== null ) { const numericChange = Number(change); if ( Number.isFinite( numericChange ) ) { changeElement.textContent = formatChange( numericChange ); changeElement.classList.remove( "positive", "negative" ); changeElement.classList.add( numericChange >= 0 ? "positive" : "negative" ); } } else { changeElement.textContent = market.trend || "LIVE"; } } } /* ========================================================= UPDATE SELECTED MARKET ========================================================= */ function updateSelectedMarket( market ) { if ( !market ) { return; } const price = Number( market.price ?? market.current_price ?? market.last ?? market.close ?? 0 ); if ( !Number.isFinite(price) ) { return; } const bid = Number( market.bid ?? market.Bid ?? price ); const ask = Number( market.ask ?? market.Ask ?? price ); const trend = market.trend || determineTrend(market); const spread = ask - bid; document.getElementById( "chart-price" ).textContent = formatPrice( price ); document.getElementById( "chart-bidask" ).textContent = `Bid: ${formatPrice(bid)} | Ask: ${formatPrice(ask)}`; document.getElementById( "detail-bid" ).textContent = formatPrice(bid); document.getElementById( "detail-ask" ).textContent = formatPrice(ask); document.getElementById( "detail-spread" ).textContent = formatPrice( spread ); document.getElementById( "detail-trend" ).textContent = trend; document.getElementById( "analysis-symbol" ).textContent = selectedMarket; document.getElementById( "analysis-price" ).textContent = formatPrice( price ); document.getElementById( "analysis-trend" ).textContent = trend; document.getElementById( "chart-trend" ).textContent = trend; document.getElementById( "chart-title" ).textContent = selectedMarket; } /* ========================================================= DETERMINE TREND ========================================================= */ function determineTrend( market ) { const change = Number( market.change ?? market.change_percent ?? 0 ); if ( !Number.isFinite(change) ) { return "LIVE"; } if ( change > 0 ) { return "BULLISH"; } if ( change < 0 ) { return "BEARISH"; } return "FLAT"; } /* ========================================================= SELECT MARKET ========================================================= */ async function selectMarket( market ) { if ( !symbols[market] ) { return; } selectedMarket = market; document .querySelectorAll( ".market-select" ) .forEach( card => { card.classList.remove( "active-market" ); } ); const selectedCard = document.getElementById( `card-${market}` ); if ( selectedCard ) { selectedCard.classList.add( "active-market" ); } document.getElementById( "chart-title" ).textContent = market; document.getElementById( "analysis-symbol" ).textContent = market; showChartStatus( `Loading ${market}...` ); await loadMarkets(); await loadCandles(); } /* ========================================================= CHANGE TIMEFRAME ========================================================= */ function changeTimeframe( timeframe, button ) { selectedTimeframe = timeframe; document .querySelectorAll( ".timeframe" ) .forEach( btn => { btn.classList.remove( "active-timeframe" ); } ); if ( button ) { button.classList.add( "active-timeframe" ); } loadCandles(); } /* ========================================================= FORMAT PRICE ========================================================= */ function formatPrice( value ) { const number = Number(value); if ( !Number.isFinite(number) ) { return "--"; } /* EURUSD / small forex values. */ if ( number < 10 ) { return number.toFixed(5); } /* Gold / indices / other lower-priced instruments. */ if ( number < 100 ) { return number.toFixed(3); } return number.toLocaleString( "en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 } ); } /* ========================================================= FORMAT CHANGE ========================================================= */ function formatChange( value ) { const number = Number(value); if ( !Number.isFinite(number) ) { return "--"; } return ( number >= 0 ? "+" : "" ) + number.toFixed(2) + "%"; } /* ========================================================= MOBILE SIDEBAR ========================================================= */ function toggleSidebar() { const sidebar = document.querySelector( ".sidebar" ); if ( sidebar ) { sidebar.classList.toggle( "open" ); } } /* ========================================================= RESPONSIVE CHART ========================================================= */ function resizeChart() { if ( !chart || !chartContainer ) { return; } const width = chartContainer.clientWidth; if ( width > 0 ) { chart.applyOptions({ width }); } } /* ========================================================= RESIZE OBSERVER ========================================================= */ if ( typeof ResizeObserver !== "undefined" ) { const resizeObserver = new ResizeObserver( () => { resizeChart(); } ); resizeObserver.observe( chartContainer ); } /* ========================================================= URL MARKET ========================================================= */ function loadMarketFromURL() { const params = new URLSearchParams( window.location.search ); const requested = params.get( "symbol" ); if ( requested && symbols[requested] ) { selectedMarket = requested; document .querySelectorAll( ".market-select" ) .forEach( card => { card.classList.remove( "active-market" ); } ); const card = document.getElementById( `card-${requested}` ); if ( card ) { card.classList.add( "active-market" ); } document.getElementById( "chart-title" ).textContent = requested; document.getElementById( "analysis-symbol" ).textContent = requested; } } /* ========================================================= INITIALIZE ========================================================= */ async function initializeNAVI() { loadMarketFromURL(); const chartReady = createChart(); if (!chartReady) { setConnection(false); return; } /* Give the browser one render cycle before loading candles. */ requestAnimationFrame( async () => { resizeChart(); await loadMarkets(); await loadCandles(); } ); } /* ========================================================= LIVE MARKET REFRESH ========================================================= */ setInterval( () => { loadMarkets(); }, 2000 ); /* ========================================================= CANDLE REFRESH ========================================================= */ setInterval( () => { loadCandles(); }, 10000 ); /* ========================================================= WINDOW RESIZE ========================================================= */ window.addEventListener( "resize", resizeChart ); /* ========================================================= START NAVI ========================================================= */ initializeNAVI(); </script>
 
-/* ==========================================
-   NAVI MARKET TERMINAL
-========================================== */
-
-
-/*
-    LIVE NAVI BACKEND
-*/
-
-const BACKEND_URL =
-    "https://cyberspace.tail754c2f.ts.net";
-
-
-/*
-    Selected market
-*/
-
-let selectedMarket = "BTCUSD";
-
-
-/*
-    Selected timeframe
-*/
-
-let selectedTimeframe = "M1";
-
-
-/*
-    MT5 symbol mapping
-*/
-
-const symbols = {
-
-    BTCUSD: "BTCUSDz",
-
-    XAUUSD: "XAUUSDz",
-
-    EURUSD: "EURUSDz",
-
-    US30: "US30z",
-
-    NAS100: "USTECz"
-
-};
-
-
-/* ==========================================
-   CHART SETUP
-========================================== */
-
-const chartContainer =
-    document.getElementById("price-chart");
-
-
-let chart = null;
-
-let candleSeries = null;
-
-
-/*
-    Create chart only after
-    Lightweight Charts has loaded.
-*/
-
-function createChart() {
-
-    if (
-        typeof LightweightCharts === "undefined"
-    ) {
-
-        console.error(
-            "Lightweight Charts library did not load."
-        );
-
-        return false;
-
-    }
-
-
-    chart =
-        LightweightCharts.createChart(
-            chartContainer,
-            {
-
-                width:
-                    chartContainer.clientWidth,
-
-                height: 480,
-
-                layout: {
-
-                    background: {
-                        color: "#06130f"
-                    },
-
-                    textColor: "#91aa9d"
-
-                },
-
-                grid: {
-
-                    vertLines: {
-                        color: "#0f2b20"
-                    },
-
-                    horzLines: {
-                        color: "#0f2b20"
-                    }
-
-                },
-
-                rightPriceScale: {
-
-                    borderColor: "#174332"
-
-                },
-
-                timeScale: {
-
-                    borderColor: "#174332",
-
-                    timeVisible: true,
-
-                    secondsVisible: false
-
-                }
-
-            }
-        );
-
-
-    /*
-        Lightweight Charts 4.2 API
-    */
-
-    candleSeries =
-        chart.addCandlestickSeries({
-
-            upColor: "#18c77a",
-
-            downColor: "#ef5b63",
-
-            borderUpColor: "#18c77a",
-
-            borderDownColor: "#ef5b63",
-
-            wickUpColor: "#18c77a",
-
-            wickDownColor: "#ef5b63"
-
-        });
-
-
-    return true;
-
-}
-
-
-/* ==========================================
-   LOAD CANDLES
-========================================== */
-
-async function loadCandles() {
-
-    if (!candleSeries) {
-        return;
-    }
-
-
-    try {
-
-        const symbol =
-            symbols[selectedMarket];
-
-
-        const url =
-            BACKEND_URL +
-            "/markets?symbol=" +
-            encodeURIComponent(symbol) +
-            "&timeframe=" +
-            encodeURIComponent(selectedTimeframe);
-
-
-        const response =
-            await fetch(
-                url,
-                {
-                    method: "GET",
-                    cache: "no-store"
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Market endpoint returned " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !Array.isArray(
-                data.candles
-            )
-        ) {
-
-            throw new Error(
-                "Backend did not return candle data."
-            );
-
-        }
-
-
-        const candles =
-            data.candles
-                .map(candle => ({
-
-                    time:
-                        Number(candle.time),
-
-                    open:
-                        Number(candle.open),
-
-                    high:
-                        Number(candle.high),
-
-                    low:
-                        Number(candle.low),
-
-                    close:
-                        Number(candle.close)
-
-                }))
-                .filter(candle =>
-
-                    Number.isFinite(candle.time) &&
-
-                    Number.isFinite(candle.open) &&
-
-                    Number.isFinite(candle.high) &&
-
-                    Number.isFinite(candle.low) &&
-
-                    Number.isFinite(candle.close)
-
-                )
-                .sort(
-                    (a, b) =>
-                        a.time - b.time
-                );
-
-
-        if (!candles.length) {
-
-            throw new Error(
-                "No valid candles received."
-            );
-
-        }
-
-
-        /*
-            Remove duplicate timestamps.
-        */
-
-        const uniqueCandles = [];
-
-        let lastTime = null;
-
-
-        for (
-            const candle of candles
-        ) {
-
-            if (
-                candle.time !== lastTime
-            ) {
-
-                uniqueCandles.push(
-                    candle
-                );
-
-                lastTime =
-                    candle.time;
-
-            }
-
-        }
-
-
-        candleSeries.setData(
-            uniqueCandles
-        );
-
-
-        chart.timeScale().fitContent();
-
-
-        setConnection(true);
-
-
-    } catch (error) {
-
-        console.error(
-            "Candle error:",
-            error
-        );
-
-        /*
-            Do not immediately mark the
-            entire market feed offline
-            because candle loading failed.
-        */
-
-    }
-
-}
-
-
-/* ==========================================
-   LOAD LIVE MARKET DATA
-========================================== */
-
-async function loadMarkets() {
-
-    try {
-
-        const response =
-            await fetch(
-                BACKEND_URL +
-                "/markets",
-                {
-                    method: "GET",
-                    cache: "no-store"
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Market endpoint returned " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        const markets =
-            data.markets || data;
-
-
-        updateMarket(
-            "BTCUSD",
-            markets.BTCUSD
-        );
-
-
-        updateMarket(
-            "XAUUSD",
-            markets.XAUUSD
-        );
-
-
-        updateMarket(
-            "EURUSD",
-            markets.EURUSD
-        );
-
-
-        updateMarket(
-            "US30",
-            markets.US30
-        );
-
-
-        updateMarket(
-            "NAS100",
-            markets.NAS100
-        );
-
-
-        const current =
-            markets[selectedMarket];
-
-
-        if (current) {
-
-            updateSelectedMarket(
-                current
-            );
-
-        }
-
-
-        setConnection(true);
-
-
-    } catch (error) {
-
-        console.error(
-            "Market error:",
-            error
-        );
-
-        setConnection(false);
-
-    }
-
-}
-
-
-/* ==========================================
-   UPDATE MARKET CARD
-========================================== */
-
-function updateMarket(
-    name,
-    market
-) {
-
-    if (!market) {
-        return;
-    }
-
-
-    const priceElement =
-        document.getElementById(
-            "price-" + name
-        );
-
-
-    const changeElement =
-        document.getElementById(
-            "change-" + name
-        );
-
-
-    const price =
-        Number(
-            market.price ??
-            market.current_price ??
-            0
-        );
-
-
-    const change =
-        market.change;
-
-
-    if (priceElement) {
-
-        priceElement.textContent =
-            formatPrice(price);
-
-    }
-
-
-    if (changeElement) {
-
-        if (
-            change !== undefined &&
-            change !== null
-        ) {
-
-            changeElement.textContent =
-                formatChange(change);
-
-
-            if (
-                Number(change) >= 0
-            ) {
-
-                changeElement.classList.add(
-                    "positive"
-                );
-
-                changeElement.classList.remove(
-                    "negative"
-                );
-
-            } else {
-
-                changeElement.classList.add(
-                    "negative"
-                );
-
-                changeElement.classList.remove(
-                    "positive"
-                );
-
-            }
-
-        } else {
-
-            changeElement.textContent =
-                market.trend ||
-                "LIVE";
-
-        }
-
-    }
-
-}
-
-
-/* ==========================================
-   UPDATE SELECTED MARKET
-========================================== */
-
-function updateSelectedMarket(
-    market
-) {
-
-    const price =
-        Number(
-            market.price ??
-            market.current_price ??
-            0
-        );
-
-
-    const bid =
-        Number(
-            market.bid ??
-            price
-        );
-
-
-    const ask =
-        Number(
-            market.ask ??
-            price
-        );
-
-
-    const trend =
-        market.trend ||
-        "LIVE";
-
-
-    const spread =
-        ask - bid;
-
-
-    document.getElementById(
-        "chart-price"
-    ).textContent =
-        formatPrice(price);
-
-
-    document.getElementById(
-        "chart-bidask"
-    ).textContent =
-        "Bid: " +
-        formatPrice(bid) +
-        " | Ask: " +
-        formatPrice(ask);
-
-
-    document.getElementById(
-        "detail-bid"
-    ).textContent =
-        formatPrice(bid);
-
-
-    document.getElementById(
-        "detail-ask"
-    ).textContent =
-        formatPrice(ask);
-
-
-    document.getElementById(
-        "detail-spread"
-    ).textContent =
-        formatPrice(spread);
-
-
-    document.getElementById(
-        "detail-trend"
-    ).textContent =
-        trend;
-
-
-    document.getElementById(
-        "analysis-symbol"
-    ).textContent =
-        selectedMarket;
-
-
-    document.getElementById(
-        "analysis-price"
-    ).textContent =
-        formatPrice(price);
-
-
-    document.getElementById(
-        "analysis-trend"
-    ).textContent =
-        trend;
-
-
-    document.getElementById(
-        "chart-trend"
-    ).textContent =
-        trend;
-
-
-    document.getElementById(
-        "chart-title"
-    ).textContent =
-        selectedMarket;
-
-}
-
-
-/* ==========================================
-   SELECT MARKET
-========================================== */
-
-function selectMarket(
-    market
-) {
-
-    selectedMarket =
-        market;
-
-
-    document
-        .querySelectorAll(
-            ".market-select"
-        )
-        .forEach(card => {
-
-            card.classList.remove(
-                "active-market"
-            );
-
-        });
-
-
-    const selectedCard =
-        document.getElementById(
-            "card-" + market
-        );
-
-
-    if (selectedCard) {
-
-        selectedCard.classList.add(
-            "active-market"
-        );
-
-    }
-
-
-    document.getElementById(
-        "chart-title"
-    ).textContent =
-        market;
-
-
-    document.getElementById(
-        "analysis-symbol"
-    ).textContent =
-        market;
-
-
-    loadMarkets();
-
-    loadCandles();
-
-}
-
-
-/* ==========================================
-   TIMEFRAME
-========================================== */
-
-function changeTimeframe(
-    timeframe,
-    button
-) {
-
-    selectedTimeframe =
-        timeframe;
-
-
-    document
-        .querySelectorAll(
-            ".timeframe"
-        )
-        .forEach(btn => {
-
-            btn.classList.remove(
-                "active-timeframe"
-            );
-
-        });
-
-
-    button.classList.add(
-        "active-timeframe"
-    );
-
-
-    loadCandles();
-
-}
-
-
-/* ==========================================
-   CONNECTION STATUS
-========================================== */
-
-function setConnection(
-    connected
-) {
-
-    const text =
-        document.getElementById(
-            "connection-text"
-        );
-
-
-    const status =
-        document.getElementById(
-            "analysis-status"
-        );
-
-
-    if (connected) {
-
-        text.textContent =
-            "MARKET FEED LIVE";
-
-
-        status.textContent =
-            "CONNECTED";
-
-    } else {
-
-        text.textContent =
-            "MARKET FEED OFFLINE";
-
-
-        status.textContent =
-            "OFFLINE";
-
-    }
-
-}
-
-
-/* ==========================================
-   FORMAT PRICE
-========================================== */
-
-function formatPrice(
-    value
-) {
-
-    if (
-        !Number.isFinite(value)
-    ) {
-
-        return "--";
-
-    }
-
-
-    if (
-        value < 10
-    ) {
-
-        return value.toFixed(5);
-
-    }
-
-
-    if (
-        value < 100
-    ) {
-
-        return value.toFixed(3);
-
-    }
-
-
-    return value.toLocaleString(
-        "en-US",
-        {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2
-        }
-    );
-
-}
-
-
-/* ==========================================
-   FORMAT CHANGE
-========================================== */
-
-function formatChange(
-    value
-) {
-
-    const number =
-        Number(value);
-
-
-    if (
-        !Number.isFinite(number)
-    ) {
-
-        return "--";
-
-    }
-
-
-    const sign =
-        number >= 0
-            ? "+"
-            : "";
-
-
-    return (
-        sign +
-        number.toFixed(2) +
-        "%"
-    );
-
-}
-
-
-/* ==========================================
-   MOBILE SIDEBAR
-========================================== */
-
-function toggleSidebar() {
-
-    document
-        .querySelector(
-            ".sidebar"
-        )
-        .classList.toggle(
-            "open"
-        );
-
-}
-
-
-/* ==========================================
-   INITIALIZE
-========================================== */
-
-function initializeNAVI() {
-
-    const chartReady =
-        createChart();
-
-
-    if (!chartReady) {
-
-        setConnection(false);
-
-        return;
-
-    }
-
-
-    loadMarkets();
-
-    loadCandles();
-
-}
-
-
-/*
-    Live price refresh.
-*/
-
-setInterval(
-    loadMarkets,
-    2000
-);
-
-
-/*
-    Candle refresh.
-*/
-
-setInterval(
-    loadCandles,
-    5000
-);
-
-
-/*
-    Responsive chart.
-*/
-
-window.addEventListener(
-    "resize",
-    () => {
-
-        if (
-            chart &&
-            chartContainer
-        ) {
-
-            chart.applyOptions({
-
-                width:
-                    chartContainer
-                        .clientWidth
-
-            });
-
-        }
-
-    }
-);
-
-
-/*
-    Start NAVI.
-*/
-
-initializeNAVI();
-
-</script>
-
-<style>
-
-.market-select {
-    cursor: pointer;
-
-    transition:
-        border-color 0.2s,
-        transform 0.2s;
-}
-
-
-.market-select:hover {
-    transform: translateY(-2px);
-
-    border-color:
-        var(--green);
-}
-
-
-.active-market {
-    border-color:
-        var(--green) !important;
-
-    box-shadow:
-        0 0 0 1px
-        rgba(24, 199, 122, 0.15),
-        0 8px 30px
-        rgba(0, 0, 0, 0.2);
-}
-
-
-.active-timeframe {
-    background:
-        var(--green) !important;
-
-    color:
-        #03110a !important;
-
-    border-color:
-        var(--green) !important;
-}
-
-
-.chart-price-row {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-
-.chart-current-price {
-    font-size: 28px;
-    font-weight: 700;
-}
-
-
-.chart-bidask {
-    color: var(--text-muted);
-    font-size: 10px;
-}
-
-
-.timeframe-row {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 15px;
-    flex-wrap: wrap;
-}
-
-
-.price-chart {
-    width: 100%;
-    height: 480px;
-    background: #06130f;
-    border: 1px solid var(--border);
-    border-radius: 7px;
-    overflow: hidden;
-}
-
-</style>
-
-</body>
-</html>
+</body> </html>
