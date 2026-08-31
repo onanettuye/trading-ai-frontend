@@ -1,106 +1,1359 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
+
 <head>
-    <title>Trading AI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>NAVI | Trading Intelligence</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+    .live-indicator {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #36d98a;
+        box-shadow: 0 0 10px rgba(54, 217, 138, 0.8);
+    }
+
+    .market-change.live {
+        color: #36d98a;
+    }
+
+    .market-change.error {
+        color: #e57373;
+    }
+
+    .market-change.neutral {
+        color: var(--text-secondary);
+    }
+
+    .price-up {
+        color: #36d98a !important;
+    }
+
+    .price-down {
+        color: #e57373 !important;
+    }
+
+    .price-flash {
+        transition: color 0.2s ease;
+    }
+
+    .last-update {
+        font-size: 11px;
+        color: var(--text-secondary);
+        margin-top: 5px;
+    }
+
+    .system-live {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+</style>
+```
+
 </head>
 
 <body>
 
+<div class="app">
+
 ```
-<h1>Trading AI</h1>
+<!-- SIDEBAR -->
+<aside class="sidebar">
 
-<p>Enter your trade information</p>
+    <div class="logo">
 
-<label>Asset:</label>
-<input type="text" id="asset" placeholder="BTCUSD">
+        <div class="logo-mark">
+            N
+        </div>
 
-<br><br>
+        <div class="logo-text">
+            NAVI
+        </div>
 
-<label>Entry:</label>
-<input type="number" id="entry" placeholder="105000">
+    </div>
 
-<br><br>
 
-<label>Stop Loss:</label>
-<input type="number" id="stopLoss" placeholder="103000">
+    <!-- TERMINAL -->
 
-<br><br>
+    <div class="nav-section">
 
-<label>Take Profit:</label>
-<input type="number" id="takeProfit" placeholder="109000">
+        <div class="nav-section-title">
+            Terminal
+        </div>
 
-<br><br>
+        <a href="index.html" class="nav-item active">
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
 
-<label>Account Balance:</label>
-<input type="number" id="balance" placeholder="10000">
+        <a href="markets.html" class="nav-item">
+            <span class="nav-icon">◈</span>
+            Markets
+        </a>
 
-<br><br>
+        <a href="analyzer.html" class="nav-item">
+            <span class="nav-icon">⌁</span>
+            Trade Analyzer
+        </a>
 
-<label>Risk %:</label>
-<input type="number" id="risk" placeholder="1">
+    </div>
 
-<br><br>
 
-<button onclick="analyzeTrade()">ANALYZE TRADE</button>
+    <!-- PORTFOLIO -->
 
-<h2>AI Analysis</h2>
+    <div class="nav-section">
 
-<div id="result">
-    Your analysis will appear here.
+        <div class="nav-section-title">
+            Portfolio
+        </div>
+
+        <a href="portfolio.html" class="nav-item">
+            <span class="nav-icon">▥</span>
+            Portfolio
+        </a>
+
+        <a href="risk.html" class="nav-item">
+            <span class="nav-icon">△</span>
+            Risk
+        </a>
+
+    </div>
+
+
+    <!-- INTELLIGENCE -->
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Intelligence
+        </div>
+
+        <a href="ai.html" class="nav-item">
+            <span class="nav-icon">✦</span>
+            AI Assistant
+        </a>
+
+    </div>
+
+
+    <!-- SYSTEM -->
+
+    <div class="sidebar-status">
+
+        <div class="connection-status">
+
+            <span
+                class="status-dot"
+                id="sidebar-status-dot"
+            ></span>
+
+            <span id="sidebar-status">
+                CONNECTING
+            </span>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <div>
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+            <h1 class="page-title">
+                NAVI
+            </h1>
+
+            <p class="page-subtitle">
+                Market intelligence and portfolio monitoring
+            </p>
+
+        </div>
+
+
+        <div class="connection-status">
+
+            <span
+                class="status-dot"
+                id="top-status-dot"
+            ></span>
+
+            <span id="top-status">
+                CONNECTING
+            </span>
+
+        </div>
+
+    </header>
+
+
+    <!-- LIVE MARKETS -->
+
+    <section class="section">
+
+        <div class="card-header">
+
+            <div>
+
+                <div class="card-title">
+                    Live Markets
+                </div>
+
+                <div class="card-subtitle">
+                    MetaTrader 5 market feed
+                </div>
+
+            </div>
+
+            <div class="live-indicator">
+
+                <span class="live-dot"></span>
+
+                <span class="badge badge-green">
+                    LIVE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="grid grid-5">
+
+
+            <!-- BTC -->
+
+            <a
+                href="markets.html?symbol=BTCUSD"
+                class="card market-card"
+            >
+
+                <div class="market-symbol">
+                    BTCUSD
+                </div>
+
+                <div
+                    class="market-price price-flash"
+                    id="btc-price"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change neutral"
+                    id="btc-change"
+                >
+                    Connecting...
+                </div>
+
+            </a>
+
+
+            <!-- GOLD -->
+
+            <a
+                href="markets.html?symbol=XAUUSD"
+                class="card market-card"
+            >
+
+                <div class="market-symbol">
+                    XAUUSD
+                </div>
+
+                <div
+                    class="market-price price-flash"
+                    id="xau-price"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change neutral"
+                    id="xau-change"
+                >
+                    Connecting...
+                </div>
+
+            </a>
+
+
+            <!-- EURUSD -->
+
+            <a
+                href="markets.html?symbol=EURUSD"
+                class="card market-card"
+            >
+
+                <div class="market-symbol">
+                    EURUSD
+                </div>
+
+                <div
+                    class="market-price price-flash"
+                    id="eur-price"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change neutral"
+                    id="eur-change"
+                >
+                    Connecting...
+                </div>
+
+            </a>
+
+
+            <!-- US30 -->
+
+            <a
+                href="markets.html?symbol=US30"
+                class="card market-card"
+            >
+
+                <div class="market-symbol">
+                    US30
+                </div>
+
+                <div
+                    class="market-price price-flash"
+                    id="us30-price"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change neutral"
+                    id="us30-change"
+                >
+                    Connecting...
+                </div>
+
+            </a>
+
+
+            <!-- NAS100 -->
+
+            <a
+                href="markets.html?symbol=NAS100"
+                class="card market-card"
+            >
+
+                <div class="market-symbol">
+                    NAS100
+                </div>
+
+                <div
+                    class="market-price price-flash"
+                    id="nas-price"
+                >
+                    --
+                </div>
+
+                <div
+                    class="market-change neutral"
+                    id="nas-change"
+                >
+                    Connecting...
+                </div>
+
+            </a>
+
+        </div>
+
+
+        <div
+            class="last-update"
+            id="market-update"
+        >
+            Waiting for MT5 market feed...
+        </div>
+
+    </section>
+
+
+    <!-- PORTFOLIO -->
+
+    <section class="section">
+
+        <div class="grid grid-4">
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    ACCOUNT BALANCE
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="balance"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    MT5 account
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    EQUITY
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="equity"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Live equity
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    FLOATING P&L
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="floating-pnl"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Open positions
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    OPEN POSITIONS
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="open-positions"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Current trades
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MARKET INTELLIGENCE -->
+
+    <section class="section">
+
+        <div class="grid grid-2">
+
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Market Intelligence
+                        </div>
+
+                        <div class="card-subtitle">
+                            NAVI market monitoring
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-panel">
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            BTCUSD
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="btc-trend"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            XAUUSD
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="xau-trend"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            EURUSD
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="eur-trend"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            US30
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="us30-trend"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            NAS100
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="nas-trend"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            AI Intelligence
+                        </div>
+
+                        <div class="card-subtitle">
+                            NAVI powered by Ollama
+                        </div>
+
+                    </div>
+
+                    <span class="badge badge-green">
+                        OLLAMA
+                    </span>
+
+                </div>
+
+
+                <p
+                    style="
+                    color:var(--text-secondary);
+                    font-size:12px;
+                    line-height:1.7;
+                    margin-bottom:20px;
+                    "
+                >
+                    Ask NAVI about market structure,
+                    risk, trade setups, portfolio exposure
+                    and market conditions.
+                </p>
+
+
+                <a
+                    href="ai.html"
+                    class="btn btn-primary"
+                    style="width:100%;"
+                >
+                    OPEN NAVI AI
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SYSTEM STATUS -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        System Status
+                    </div>
+
+                    <div class="card-subtitle">
+                        NAVI infrastructure
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-4">
+
+
+                <div>
+
+                    <div class="metric-label">
+                        MT5
+                    </div>
+
+                    <span
+                        class="badge badge-green"
+                        id="mt5-status"
+                    >
+                        CONNECTING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        BACKEND
+                    </div>
+
+                    <span
+                        class="badge badge-green"
+                        id="backend-status"
+                    >
+                        CONNECTING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        MARKET FEED
+                    </div>
+
+                    <span
+                        class="badge badge-green"
+                        id="feed-status"
+                    >
+                        CONNECTING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        AI ENGINE
+                    </div>
+
+                    <span class="badge badge-gold">
+                        OLLAMA
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+```
+
 </div>
 
 <script>
-    async function analyzeTrade() {
 
-        const trade = {
-            asset: document.getElementById("asset").value,
-            entry: Number(document.getElementById("entry").value),
-            stop_loss: Number(document.getElementById("stopLoss").value),
-            take_profit: Number(document.getElementById("takeProfit").value),
-            balance: Number(document.getElementById("balance").value),
-            risk: Number(document.getElementById("risk").value)
-        };
+/* =========================================================
+   NAVI FRONTEND CONFIGURATION
+   ========================================================= */
 
-        document.getElementById("result").innerText =
-            "Analyzing...";
+const API_URL = "http://127.0.0.1:8000";
 
-        try {
 
-            const response = await fetch(
-                "https://cyberspace.tail754c2f.ts.net/analyze",
+/* =========================================================
+   MARKET CONFIGURATION
+   ========================================================= */
+
+const marketConfig = {
+
+    BTCUSD: {
+        price: "btc-price",
+        change: "btc-change",
+        trend: "btc-trend"
+    },
+
+    XAUUSD: {
+        price: "xau-price",
+        change: "xau-change",
+        trend: "xau-trend"
+    },
+
+    EURUSD: {
+        price: "eur-price",
+        change: "eur-change",
+        trend: "eur-trend"
+    },
+
+    US30: {
+        price: "us30-price",
+        change: "us30-change",
+        trend: "us30-trend"
+    },
+
+    NAS100: {
+        price: "nas-price",
+        change: "nas-change",
+        trend: "nas-trend"
+    }
+
+};
+
+
+const previousPrices = {};
+
+
+/* =========================================================
+   FORMAT PRICE
+   ========================================================= */
+
+function formatPrice(symbol, price) {
+
+    if (price === null || price === undefined) {
+
+        return "--";
+
+    }
+
+
+    if (symbol === "EURUSD") {
+
+        return Number(price).toFixed(5);
+
+    }
+
+
+    if (symbol === "XAUUSD") {
+
+        return Number(price).toFixed(2);
+
+    }
+
+
+    if (symbol === "BTCUSD") {
+
+        return Number(price).toFixed(2);
+
+    }
+
+
+    return Number(price).toFixed(2);
+
+}
+
+
+/* =========================================================
+   UPDATE MARKET CARD
+   ========================================================= */
+
+function updateMarketCard(symbol, market) {
+
+    const config =
+        marketConfig[symbol];
+
+
+    if (!config) {
+
+        return;
+
+    }
+
+
+    const priceElement =
+        document.getElementById(
+            config.price
+        );
+
+
+    const changeElement =
+        document.getElementById(
+            config.change
+        );
+
+
+    const trendElement =
+        document.getElementById(
+            config.trend
+        );
+
+
+    if (!priceElement) {
+
+        return;
+
+    }
+
+
+    if (
+        !market ||
+        market.status !== "LIVE" ||
+        !market.price
+    ) {
+
+        priceElement.textContent =
+            "--";
+
+        changeElement.textContent =
+            "No live data";
+
+        changeElement.className =
+            "market-change error";
+
+        trendElement.textContent =
+            "NO DATA";
+
+        return;
+
+    }
+
+
+    const currentPrice =
+        Number(
+            market.price
+        );
+
+
+    const previousPrice =
+        previousPrices[symbol];
+
+
+    priceElement.textContent =
+        formatPrice(
+            symbol,
+            currentPrice
+        );
+
+
+    /* ================================================
+       PRICE MOVEMENT
+       ================================================ */
+
+    if (
+        previousPrice !== undefined &&
+        currentPrice !== previousPrice
+    ) {
+
+        if (
+            currentPrice >
+            previousPrice
+        ) {
+
+            priceElement.classList.remove(
+                "price-down"
+            );
+
+            priceElement.classList.add(
+                "price-up"
+            );
+
+            changeElement.textContent =
+                "▲ PRICE RISING";
+
+            changeElement.className =
+                "market-change live";
+
+        }
+
+
+        else if (
+            currentPrice <
+            previousPrice
+        ) {
+
+            priceElement.classList.remove(
+                "price-up"
+            );
+
+            priceElement.classList.add(
+                "price-down"
+            );
+
+            changeElement.textContent =
+                "▼ PRICE FALLING";
+
+            changeElement.className =
+                "market-change error";
+
+        }
+
+    }
+
+
+    else {
+
+        changeElement.textContent =
+            "● LIVE";
+
+        changeElement.className =
+            "market-change live";
+
+    }
+
+
+    previousPrices[symbol] =
+        currentPrice;
+
+}
+
+
+/* =========================================================
+   LOAD LIVE MARKETS
+   ========================================================= */
+
+async function loadMarkets() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/markets`,
                 {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-                    body: JSON.stringify(trade)
+                    cache: "no-store"
                 }
             );
 
-            if (!response.ok) {
-                throw new Error(
-                    "Server returned " + response.status
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Market request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.status === "LIVE" &&
+            data.markets
+        ) {
+
+            Object.keys(
+                data.markets
+            ).forEach(
+                symbol => {
+
+                    updateMarketCard(
+                        symbol,
+                        data.markets[symbol]
+                    );
+
+                }
+            );
+
+
+            document.getElementById(
+                "market-update"
+            ).textContent =
+                "MT5 market feed updated • " +
+                new Date().toLocaleTimeString();
+
+
+            setSystemOnline();
+
+        }
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "NAVI market error:",
+            error
+        );
+
+
+        setSystemOffline();
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD ACCOUNT
+   ========================================================= */
+
+async function loadAccount() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/account`,
+                {
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Account request failed"
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            data.account
+        ) {
+
+            const account =
+                data.account;
+
+
+            document.getElementById(
+                "balance"
+            ).textContent =
+                "$" +
+                Number(
+                    account.balance
+                ).toFixed(2);
+
+
+            document.getElementById(
+                "equity"
+            ).textContent =
+                "$" +
+                Number(
+                    account.equity
+                ).toFixed(2);
+
+
+            const pnl =
+                Number(
+                    account.profit
                 );
+
+
+            const pnlElement =
+                document.getElementById(
+                    "floating-pnl"
+                );
+
+
+            pnlElement.textContent =
+                (pnl >= 0 ? "+" : "") +
+                "$" +
+                pnl.toFixed(2);
+
+
+            pnlElement.classList.remove(
+                "positive",
+                "price-down"
+            );
+
+
+            if (pnl >= 0) {
+
+                pnlElement.classList.add(
+                    "positive"
+                );
+
             }
 
-            const data = await response.json();
+            else {
 
-            document.getElementById("result").innerText =
-                data.analysis;
+                pnlElement.classList.add(
+                    "price-down"
+                );
 
-        } catch (error) {
+            }
 
-            document.getElementById("result").innerText =
-                "Error connecting to Trading AI backend.";
 
-            console.error(error);
+            /* ==========================================
+               OPEN POSITIONS
+               ========================================== */
+
+            try {
+
+                const positions =
+                    await fetch(
+                        `${API_URL}/positions`,
+                        {
+                            cache: "no-store"
+                        }
+                    );
+
+
+                if (positions.ok) {
+
+                    const positionData =
+                        await positions.json();
+
+
+                    document.getElementById(
+                        "open-positions"
+                    ).textContent =
+                        positionData.count ?? 0;
+
+                }
+
+            }
+
+            catch {
+
+                document.getElementById(
+                    "open-positions"
+                ).textContent =
+                    "--";
+
+            }
+
         }
+
     }
+
+    catch (error) {
+
+        console.error(
+            "NAVI account error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SYSTEM ONLINE
+   ========================================================= */
+
+function setSystemOnline() {
+
+    document.getElementById(
+        "sidebar-status"
+    ).textContent =
+        "SYSTEM ONLINE";
+
+
+    document.getElementById(
+        "top-status"
+    ).textContent =
+        "LIVE";
+
+
+    document.getElementById(
+        "mt5-status"
+    ).textContent =
+        "CONNECTED";
+
+
+    document.getElementById(
+        "backend-status"
+    ).textContent =
+        "ONLINE";
+
+
+    document.getElementById(
+        "feed-status"
+    ).textContent =
+        "LIVE";
+
+}
+
+
+/* =========================================================
+   SYSTEM OFFLINE
+   ========================================================= */
+
+function setSystemOffline() {
+
+    document.getElementById(
+        "sidebar-status"
+    ).textContent =
+        "CONNECTION ERROR";
+
+
+    document.getElementById(
+        "top-status"
+    ).textContent =
+        "OFFLINE";
+
+
+    document.getElementById(
+        "feed-status"
+    ).textContent =
+        "OFFLINE";
+
+}
+
+
+/* =========================================================
+   START NAVI
+   ========================================================= */
+
+async function initializeNAVI() {
+
+    await loadMarkets();
+
+    await loadAccount();
+
+}
+
+
+/* =========================================================
+   LIVE REFRESH
+   ========================================================= */
+
+/*
+   Refresh market prices every 1 second.
+*/
+
+setInterval(
+    loadMarkets,
+    1000
+);
+
+
+/*
+   Refresh account every 2 seconds.
+*/
+
+setInterval(
+    loadAccount,
+    2000
+);
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+initializeNAVI();
+
+
+/* =========================================================
+   MOBILE SIDEBAR
+   ========================================================= */
+
+function toggleSidebar() {
+
+    document
+        .querySelector(".sidebar")
+        .classList
+        .toggle("open");
+
+}
+
 </script>
-```
 
 </body>
+
 </html>
