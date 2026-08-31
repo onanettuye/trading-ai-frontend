@@ -1,0 +1,1504 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+```
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>NAVI | Portfolio</title>
+
+<link
+    rel="stylesheet"
+    href="css/style.css"
+>
+
+<!-- Lightweight Charts -->
+<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+```
+
+</head>
+
+<body>
+
+<div class="app">
+
+```
+<!-- =========================
+     SIDEBAR
+========================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <div class="logo-mark">
+            N
+        </div>
+
+        <div class="logo-text">
+            NAVI
+        </div>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Terminal
+        </div>
+
+
+        <a
+            href="index.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">▦</span>
+            Dashboard
+        </a>
+
+
+        <a
+            href="markets.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">◈</span>
+            Markets
+        </a>
+
+
+        <a
+            href="analyzer.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">⌁</span>
+            Trade Analyzer
+        </a>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Portfolio
+        </div>
+
+
+        <a
+            href="portfolio.html"
+            class="nav-item active"
+        >
+            <span class="nav-icon">▥</span>
+            Portfolio
+        </a>
+
+
+        <a
+            href="risk.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">△</span>
+            Risk
+        </a>
+
+    </div>
+
+
+    <div class="nav-section">
+
+        <div class="nav-section-title">
+            Intelligence
+        </div>
+
+
+        <a
+            href="ai.html"
+            class="nav-item"
+        >
+            <span class="nav-icon">✦</span>
+            NAVI Assistant
+        </a>
+
+    </div>
+
+
+    <div class="sidebar-status">
+
+        <div class="connection-status">
+
+            <span class="status-dot"></span>
+
+            NAVI ONLINE
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+
+<!-- =========================
+     MAIN CONTENT
+========================== -->
+
+<main class="content">
+
+
+    <!-- HEADER -->
+
+    <header class="topbar">
+
+        <div>
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+
+            <h1 class="page-title">
+                Portfolio
+            </h1>
+
+
+            <p class="page-subtitle">
+                Account performance and trading activity
+            </p>
+
+        </div>
+
+
+        <div class="connection-status">
+
+            <span
+                class="status-dot"
+                id="connection-dot"
+            ></span>
+
+            <span id="connection-text">
+                CONNECTING
+            </span>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================
+         ACCOUNT SUMMARY
+    ========================== -->
+
+    <section class="section">
+
+        <div class="grid grid-4">
+
+
+            <!-- BALANCE -->
+
+            <div class="card">
+
+                <div class="metric-label">
+                    ACCOUNT BALANCE
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="account-balance"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    MT5 balance
+                </div>
+
+            </div>
+
+
+
+            <!-- EQUITY -->
+
+            <div class="card">
+
+                <div class="metric-label">
+                    EQUITY
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="account-equity"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Live account equity
+                </div>
+
+            </div>
+
+
+
+            <!-- P&L -->
+
+            <div class="card">
+
+                <div class="metric-label">
+                    FLOATING P&L
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="floating-pnl"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Open positions
+                </div>
+
+            </div>
+
+
+
+            <!-- POSITIONS -->
+
+            <div class="card">
+
+                <div class="metric-label">
+                    OPEN POSITIONS
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="open-positions"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Active trades
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         PERFORMANCE
+    ========================== -->
+
+    <section class="section">
+
+        <div class="grid grid-4">
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    TODAY P&L
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="today-pnl"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Daily performance
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    TOTAL PROFIT
+                </div>
+
+                <div
+                    class="metric-value positive"
+                    id="total-profit"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Closed winning trades
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    TOTAL LOSS
+                </div>
+
+                <div
+                    class="metric-value negative"
+                    id="total-loss"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Closed losing trades
+                </div>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="metric-label">
+                    WIN RATE
+                </div>
+
+                <div
+                    class="metric-value"
+                    id="win-rate"
+                >
+                    --
+                </div>
+
+                <div class="metric-small">
+                    Trading performance
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         EQUITY CURVE
+    ========================== -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Equity Curve
+                    </div>
+
+                    <div class="card-subtitle">
+                        Portfolio performance over time
+                    </div>
+
+                </div>
+
+
+                <span class="badge badge-green">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div
+                id="equity-chart"
+                style="
+                width:100%;
+                height:400px;
+                background:#06130f;
+                border:1px solid var(--border);
+                border-radius:7px;
+                overflow:hidden;
+                "
+            ></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         OPEN POSITIONS
+    ========================== -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Open Positions
+                    </div>
+
+                    <div class="card-subtitle">
+                        Current MT5 positions
+                    </div>
+
+                </div>
+
+                <span
+                    class="badge badge-green"
+                    id="position-status"
+                >
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div
+                style="
+                overflow-x:auto;
+                "
+            >
+
+                <table
+                    style="
+                    width:100%;
+                    border-collapse:collapse;
+                    font-size:12px;
+                    "
+                >
+
+                    <thead>
+
+                        <tr
+                            style="
+                            border-bottom:1px solid var(--border);
+                            text-align:left;
+                            "
+                        >
+
+                            <th style="padding:14px;">
+                                SYMBOL
+                            </th>
+
+                            <th style="padding:14px;">
+                                TYPE
+                            </th>
+
+                            <th style="padding:14px;">
+                                VOLUME
+                            </th>
+
+                            <th style="padding:14px;">
+                                ENTRY
+                            </th>
+
+                            <th style="padding:14px;">
+                                CURRENT
+                            </th>
+
+                            <th style="padding:14px;">
+                                P&L
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="positions-table">
+
+                        <tr>
+
+                            <td
+                                colspan="6"
+                                style="
+                                padding:25px;
+                                text-align:center;
+                                color:var(--text-muted);
+                                "
+                            >
+                                Loading positions...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         PORTFOLIO STATISTICS
+    ========================== -->
+
+    <section class="section">
+
+        <div class="grid grid-2">
+
+
+            <!-- TRADE STATISTICS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Trading Statistics
+                        </div>
+
+                        <div class="card-subtitle">
+                            Portfolio performance metrics
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-panel">
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Total Trades
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="total-trades"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Winning Trades
+                        </span>
+
+                        <span
+                            class="analysis-value positive"
+                            id="winning-trades"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Losing Trades
+                        </span>
+
+                        <span
+                            class="analysis-value negative"
+                            id="losing-trades"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Profit Factor
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="profit-factor"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Average Win
+                        </span>
+
+                        <span
+                            class="analysis-value positive"
+                            id="average-win"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Average Loss
+                        </span>
+
+                        <span
+                            class="analysis-value negative"
+                            id="average-loss"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACCOUNT INFORMATION -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <div>
+
+                        <div class="card-title">
+                            Account Information
+                        </div>
+
+                        <div class="card-subtitle">
+                            Connected trading account
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-panel">
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Broker
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="broker"
+                        >
+                            MT5
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Account
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="account-number"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Currency
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="account-currency"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Leverage
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="account-leverage"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+
+                    <div class="analysis-row">
+
+                        <span class="analysis-label">
+                            Server
+                        </span>
+
+                        <span
+                            class="analysis-value"
+                            id="account-server"
+                        >
+                            --
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         SYSTEM
+    ========================== -->
+
+    <section class="section">
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <div class="card-title">
+                        Portfolio System
+                    </div>
+
+                    <div class="card-subtitle">
+                        NAVI portfolio data connection
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="grid grid-4">
+
+
+                <div>
+
+                    <div class="metric-label">
+                        MT5
+                    </div>
+
+                    <span
+                        class="badge badge-green"
+                        id="mt5-status"
+                    >
+                        CONNECTING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        ACCOUNT
+                    </div>
+
+                    <span
+                        class="badge badge-green"
+                        id="account-status"
+                    >
+                        LOADING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        POSITIONS
+                    </div>
+
+                    <span
+                        class="badge badge-green"
+                        id="positions-status"
+                    >
+                        LOADING
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <div class="metric-label">
+                        NAVI
+                    </div>
+
+                    <span class="badge badge-gold">
+                        INTELLIGENCE
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
+```
+
+</div>
+
+<script>
+
+/* ==========================================
+   NAVI PORTFOLIO
+========================================== */
+
+
+/*
+    NAVI backend
+*/
+
+const BACKEND_URL =
+    "https://cyberspace.tail754c2f.ts.net";
+
+
+/* ==========================================
+   FORMAT MONEY
+========================================== */
+
+function formatMoney(value) {
+
+    const number =
+        Number(value);
+
+    if (!Number.isFinite(number)) {
+
+        return "--";
+
+    }
+
+    return number.toLocaleString(
+        "en-US",
+        {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }
+    );
+
+}
+
+
+/* ==========================================
+   FORMAT P&L
+========================================== */
+
+function formatPnL(value) {
+
+    const number =
+        Number(value);
+
+    if (!Number.isFinite(number)) {
+
+        return "--";
+
+    }
+
+    const sign =
+        number >= 0
+            ? "+"
+            : "";
+
+    return (
+        sign +
+        formatMoney(number)
+    );
+
+}
+
+
+/* ==========================================
+   LOAD PORTFOLIO
+========================================== */
+
+async function loadPortfolio() {
+
+    try {
+
+        const response =
+            await fetch(
+                BACKEND_URL +
+                "/portfolio"
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Portfolio endpoint returned " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "NAVI portfolio:",
+            data
+        );
+
+
+        /*
+            Account data
+        */
+
+        const account =
+            data.account ||
+            data;
+
+
+        if (account.balance !== undefined) {
+
+            document.getElementById(
+                "account-balance"
+            ).textContent =
+                formatMoney(
+                    account.balance
+                );
+
+        }
+
+
+        if (account.equity !== undefined) {
+
+            document.getElementById(
+                "account-equity"
+            ).textContent =
+                formatMoney(
+                    account.equity
+                );
+
+        }
+
+
+        if (account.profit !== undefined) {
+
+            const pnl =
+                Number(account.profit);
+
+
+            const element =
+                document.getElementById(
+                    "floating-pnl"
+                );
+
+
+            element.textContent =
+                formatPnL(pnl);
+
+
+            element.classList.toggle(
+                "positive",
+                pnl >= 0
+            );
+
+
+            element.classList.toggle(
+                "negative",
+                pnl < 0
+            );
+
+        }
+
+
+        /*
+            Number of positions
+        */
+
+        const positions =
+            data.positions ||
+            [];
+
+
+        document.getElementById(
+            "open-positions"
+        ).textContent =
+            positions.length;
+
+
+        renderPositions(
+            positions
+        );
+
+
+        setConnection(
+            true
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Portfolio error:",
+            error
+        );
+
+
+        setConnection(
+            false
+        );
+
+    }
+
+}
+
+
+/* ==========================================
+   RENDER POSITIONS
+========================================== */
+
+function renderPositions(
+    positions
+) {
+
+    const table =
+        document.getElementById(
+            "positions-table"
+        );
+
+
+    if (
+        !positions ||
+        positions.length === 0
+    ) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="6"
+                    style="
+                    padding:30px;
+                    text-align:center;
+                    color:var(--text-muted);
+                    "
+                >
+                    No open positions
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        positions.map(
+            position => {
+
+                const pnl =
+                    Number(
+                        position.profit ||
+                        position.pnl ||
+                        0
+                    );
+
+
+                const pnlClass =
+                    pnl >= 0
+                        ? "positive"
+                        : "negative";
+
+
+                return `
+
+                    <tr
+                        style="
+                        border-bottom:
+                        1px solid var(--border);
+                        "
+                    >
+
+                        <td style="padding:14px;">
+                            ${
+                                position.symbol ||
+                                "--"
+                            }
+                        </td>
+
+
+                        <td style="padding:14px;">
+                            ${
+                                position.type ||
+                                "--"
+                            }
+                        </td>
+
+
+                        <td style="padding:14px;">
+                            ${
+                                position.volume ??
+                                "--"
+                            }
+                        </td>
+
+
+                        <td style="padding:14px;">
+                            ${
+                                position.price_open ??
+                                position.entry ??
+                                "--"
+                            }
+                        </td>
+
+
+                        <td style="padding:14px;">
+                            ${
+                                position.price_current ??
+                                position.current_price ??
+                                "--"
+                            }
+                        </td>
+
+
+                        <td
+                            class="${pnlClass}"
+                            style="padding:14px;"
+                        >
+                            ${
+                                formatPnL(pnl)
+                            }
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }
+        ).join("");
+
+}
+
+
+/* ==========================================
+   CONNECTION
+========================================== */
+
+function setConnection(
+    connected
+) {
+
+    const text =
+        document.getElementById(
+            "connection-text"
+        );
+
+
+    const mt5 =
+        document.getElementById(
+            "mt5-status"
+        );
+
+
+    const account =
+        document.getElementById(
+            "account-status"
+        );
+
+
+    const positions =
+        document.getElementById(
+            "positions-status"
+        );
+
+
+    if (connected) {
+
+        text.textContent =
+            "PORTFOLIO LIVE";
+
+
+        mt5.textContent =
+            "CONNECTED";
+
+
+        account.textContent =
+            "CONNECTED";
+
+
+        positions.textContent =
+            "LIVE";
+
+    } else {
+
+        text.textContent =
+            "PORTFOLIO OFFLINE";
+
+
+        mt5.textContent =
+            "OFFLINE";
+
+
+        account.textContent =
+            "OFFLINE";
+
+
+        positions.textContent =
+            "OFFLINE";
+
+    }
+
+}
+
+
+/* ==========================================
+   SIDEBAR
+========================================== */
+
+function toggleSidebar() {
+
+    document
+        .querySelector(
+            ".sidebar"
+        )
+        .classList
+        .toggle(
+            "open"
+        );
+
+}
+
+
+/* ==========================================
+   EQUITY CHART
+========================================== */
+
+const chartContainer =
+    document.getElementById(
+        "equity-chart"
+    );
+
+
+const equityChart =
+    LightweightCharts.createChart(
+        chartContainer,
+        {
+
+            layout: {
+
+                background: {
+                    color: "#06130f"
+                },
+
+                textColor: "#91aa9d"
+
+            },
+
+            grid: {
+
+                vertLines: {
+                    color: "#0f2b20"
+                },
+
+                horzLines: {
+                    color: "#0f2b20"
+                }
+
+            },
+
+            rightPriceScale: {
+
+                borderColor:
+                    "#174332"
+
+            },
+
+            timeScale: {
+
+                borderColor:
+                    "#174332",
+
+                timeVisible: true,
+
+                secondsVisible: false
+
+            }
+
+        }
+    );
+
+
+const equitySeries =
+    equityChart.addLineSeries({
+
+        lineWidth: 2,
+
+        priceLineVisible: true,
+
+        lastValueVisible: true
+
+    });
+
+
+/*
+    Temporary initial chart.
+
+    Later this will be replaced
+    with real historical account
+    equity from MT5.
+*/
+
+const now =
+    Math.floor(
+        Date.now() / 1000
+    );
+
+
+equitySeries.setData([
+
+    {
+        time: now - 86400 * 6,
+        value: 10000
+    },
+
+    {
+        time: now - 86400 * 5,
+        value: 10120
+    },
+
+    {
+        time: now - 86400 * 4,
+        value: 10080
+    },
+
+    {
+        time: now - 86400 * 3,
+        value: 10350
+    },
+
+    {
+        time: now - 86400 * 2,
+        value: 10280
+    },
+
+    {
+        time: now - 86400,
+        value: 10520
+    },
+
+    {
+        time: now,
+        value: 10680
+    }
+
+]);
+
+
+equityChart
+    .timeScale()
+    .fitContent();
+
+
+/* ==========================================
+   RESIZE CHART
+========================================== */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        equityChart.applyOptions({
+
+            width:
+                chartContainer.clientWidth
+
+        });
+
+    }
+);
+
+
+/* ==========================================
+   INITIAL LOAD
+========================================== */
+
+loadPortfolio();
+
+
+/*
+    Refresh portfolio every 2 seconds.
+*/
+
+setInterval(
+    loadPortfolio,
+    2000
+);
+
+</script>
+
+</body>
+
+</html>
