@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Trading AI</title>
+</head>
+
+<body>
+
+```
+<h1>Trading AI</h1>
+
+<p>Enter your trade information</p>
+
+<label>Asset:</label>
+<input type="text" id="asset" placeholder="BTCUSD">
+
+<br><br>
+
+<label>Entry:</label>
+<input type="number" id="entry" placeholder="105000">
+
+<br><br>
+
+<label>Stop Loss:</label>
+<input type="number" id="stopLoss" placeholder="103000">
+
+<br><br>
+
+<label>Take Profit:</label>
+<input type="number" id="takeProfit" placeholder="109000">
+
+<br><br>
+
+<label>Account Balance:</label>
+<input type="number" id="balance" placeholder="10000">
+
+<br><br>
+
+<label>Risk %:</label>
+<input type="number" id="risk" placeholder="1">
+
+<br><br>
+
+<button onclick="analyzeTrade()">ANALYZE TRADE</button>
+
+<h2>AI Analysis</h2>
+
+<div id="result">
+    Your analysis will appear here.
+</div>
+
+<script>
+    async function analyzeTrade() {
+
+        const trade = {
+            asset: document.getElementById("asset").value,
+            entry: Number(document.getElementById("entry").value),
+            stop_loss: Number(document.getElementById("stopLoss").value),
+            take_profit: Number(document.getElementById("takeProfit").value),
+            balance: Number(document.getElementById("balance").value),
+            risk: Number(document.getElementById("risk").value)
+        };
+
+        document.getElementById("result").innerText =
+            "Analyzing...";
+
+        try {
+
+            const response = await fetch(
+                "https://cyberspace.tail754c2f.ts.net/analyze",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(trade)
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Server returned " + response.status
+                );
+            }
+
+            const data = await response.json();
+
+            document.getElementById("result").innerText =
+                data.analysis;
+
+        } catch (error) {
+
+            document.getElementById("result").innerText =
+                "Error connecting to Trading AI backend.";
+
+            console.error(error);
+        }
+    }
+</script>
+```
+
+</body>
+</html>
