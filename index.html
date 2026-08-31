@@ -1,770 +1,16 @@
-<!DOCTYPE html>
-
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-```
-<title>NAVI | Trading Intelligence</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-<style>
-    .live-indicator {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .live-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #36d98a;
-        box-shadow: 0 0 10px rgba(54, 217, 138, 0.8);
-    }
-
-    .market-change.live {
-        color: #36d98a;
-    }
-
-    .market-change.error {
-        color: #e57373;
-    }
-
-    .market-change.neutral {
-        color: var(--text-secondary);
-    }
-
-    .price-up {
-        color: #36d98a !important;
-    }
-
-    .price-down {
-        color: #e57373 !important;
-    }
-
-    .price-flash {
-        transition: color 0.2s ease;
-    }
-
-    .last-update {
-        font-size: 11px;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-
-    .system-live {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-    }
-</style>
-```
-
-</head>
-
-<body>
-
-<div class="app">
-
-```
-<!-- SIDEBAR -->
-<aside class="sidebar">
-
-    <div class="logo">
-
-        <div class="logo-mark">
-            N
-        </div>
-
-        <div class="logo-text">
-            NAVI
-        </div>
-
-    </div>
-
-
-    <!-- TERMINAL -->
-
-    <div class="nav-section">
-
-        <div class="nav-section-title">
-            Terminal
-        </div>
-
-        <a href="index.html" class="nav-item active">
-            <span class="nav-icon">▦</span>
-            Dashboard
-        </a>
-
-        <a href="markets.html" class="nav-item">
-            <span class="nav-icon">◈</span>
-            Markets
-        </a>
-
-        <a href="analyzer.html" class="nav-item">
-            <span class="nav-icon">⌁</span>
-            Trade Analyzer
-        </a>
-
-    </div>
-
-
-    <!-- PORTFOLIO -->
-
-    <div class="nav-section">
-
-        <div class="nav-section-title">
-            Portfolio
-        </div>
-
-        <a href="portfolio.html" class="nav-item">
-            <span class="nav-icon">▥</span>
-            Portfolio
-        </a>
-
-        <a href="risk.html" class="nav-item">
-            <span class="nav-icon">△</span>
-            Risk
-        </a>
-
-    </div>
-
-
-    <!-- INTELLIGENCE -->
-
-    <div class="nav-section">
-
-        <div class="nav-section-title">
-            Intelligence
-        </div>
-
-        <a href="ai.html" class="nav-item">
-            <span class="nav-icon">✦</span>
-            AI Assistant
-        </a>
-
-    </div>
-
-
-    <!-- SYSTEM -->
-
-    <div class="sidebar-status">
-
-        <div class="connection-status">
-
-            <span
-                class="status-dot"
-                id="sidebar-status-dot"
-            ></span>
-
-            <span id="sidebar-status">
-                CONNECTING
-            </span>
-
-        </div>
-
-    </div>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="content">
-
-
-    <!-- TOP BAR -->
-
-    <header class="topbar">
-
-        <div>
-
-            <button
-                class="mobile-menu"
-                onclick="toggleSidebar()"
-            >
-                ☰
-            </button>
-
-            <h1 class="page-title">
-                NAVI
-            </h1>
-
-            <p class="page-subtitle">
-                Market intelligence and portfolio monitoring
-            </p>
-
-        </div>
-
-
-        <div class="connection-status">
-
-            <span
-                class="status-dot"
-                id="top-status-dot"
-            ></span>
-
-            <span id="top-status">
-                CONNECTING
-            </span>
-
-        </div>
-
-    </header>
-
-
-    <!-- LIVE MARKETS -->
-
-    <section class="section">
-
-        <div class="card-header">
-
-            <div>
-
-                <div class="card-title">
-                    Live Markets
-                </div>
-
-                <div class="card-subtitle">
-                    MetaTrader 5 market feed
-                </div>
-
-            </div>
-
-            <div class="live-indicator">
-
-                <span class="live-dot"></span>
-
-                <span class="badge badge-green">
-                    LIVE
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <div class="grid grid-5">
-
-
-            <!-- BTC -->
-
-            <a
-                href="markets.html?symbol=BTCUSD"
-                class="card market-card"
-            >
-
-                <div class="market-symbol">
-                    BTCUSD
-                </div>
-
-                <div
-                    class="market-price price-flash"
-                    id="btc-price"
-                >
-                    --
-                </div>
-
-                <div
-                    class="market-change neutral"
-                    id="btc-change"
-                >
-                    Connecting...
-                </div>
-
-            </a>
-
-
-            <!-- GOLD -->
-
-            <a
-                href="markets.html?symbol=XAUUSD"
-                class="card market-card"
-            >
-
-                <div class="market-symbol">
-                    XAUUSD
-                </div>
-
-                <div
-                    class="market-price price-flash"
-                    id="xau-price"
-                >
-                    --
-                </div>
-
-                <div
-                    class="market-change neutral"
-                    id="xau-change"
-                >
-                    Connecting...
-                </div>
-
-            </a>
-
-
-            <!-- EURUSD -->
-
-            <a
-                href="markets.html?symbol=EURUSD"
-                class="card market-card"
-            >
-
-                <div class="market-symbol">
-                    EURUSD
-                </div>
-
-                <div
-                    class="market-price price-flash"
-                    id="eur-price"
-                >
-                    --
-                </div>
-
-                <div
-                    class="market-change neutral"
-                    id="eur-change"
-                >
-                    Connecting...
-                </div>
-
-            </a>
-
-
-            <!-- US30 -->
-
-            <a
-                href="markets.html?symbol=US30"
-                class="card market-card"
-            >
-
-                <div class="market-symbol">
-                    US30
-                </div>
-
-                <div
-                    class="market-price price-flash"
-                    id="us30-price"
-                >
-                    --
-                </div>
-
-                <div
-                    class="market-change neutral"
-                    id="us30-change"
-                >
-                    Connecting...
-                </div>
-
-            </a>
-
-
-            <!-- NAS100 -->
-
-            <a
-                href="markets.html?symbol=NAS100"
-                class="card market-card"
-            >
-
-                <div class="market-symbol">
-                    NAS100
-                </div>
-
-                <div
-                    class="market-price price-flash"
-                    id="nas-price"
-                >
-                    --
-                </div>
-
-                <div
-                    class="market-change neutral"
-                    id="nas-change"
-                >
-                    Connecting...
-                </div>
-
-            </a>
-
-        </div>
-
-
-        <div
-            class="last-update"
-            id="market-update"
-        >
-            Waiting for MT5 market feed...
-        </div>
-
-    </section>
-
-
-    <!-- PORTFOLIO -->
-
-    <section class="section">
-
-        <div class="grid grid-4">
-
-
-            <div class="card">
-
-                <div class="metric-label">
-                    ACCOUNT BALANCE
-                </div>
-
-                <div
-                    class="metric-value"
-                    id="balance"
-                >
-                    --
-                </div>
-
-                <div class="metric-small">
-                    MT5 account
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="metric-label">
-                    EQUITY
-                </div>
-
-                <div
-                    class="metric-value"
-                    id="equity"
-                >
-                    --
-                </div>
-
-                <div class="metric-small">
-                    Live equity
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="metric-label">
-                    FLOATING P&L
-                </div>
-
-                <div
-                    class="metric-value"
-                    id="floating-pnl"
-                >
-                    --
-                </div>
-
-                <div class="metric-small">
-                    Open positions
-                </div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="metric-label">
-                    OPEN POSITIONS
-                </div>
-
-                <div
-                    class="metric-value"
-                    id="open-positions"
-                >
-                    --
-                </div>
-
-                <div class="metric-small">
-                    Current trades
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- MARKET INTELLIGENCE -->
-
-    <section class="section">
-
-        <div class="grid grid-2">
-
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <div>
-
-                        <div class="card-title">
-                            Market Intelligence
-                        </div>
-
-                        <div class="card-subtitle">
-                            NAVI market monitoring
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div class="analysis-panel">
-
-
-                    <div class="analysis-row">
-
-                        <span class="analysis-label">
-                            BTCUSD
-                        </span>
-
-                        <span
-                            class="analysis-value"
-                            id="btc-trend"
-                        >
-                            --
-                        </span>
-
-                    </div>
-
-
-                    <div class="analysis-row">
-
-                        <span class="analysis-label">
-                            XAUUSD
-                        </span>
-
-                        <span
-                            class="analysis-value"
-                            id="xau-trend"
-                        >
-                            --
-                        </span>
-
-                    </div>
-
-
-                    <div class="analysis-row">
-
-                        <span class="analysis-label">
-                            EURUSD
-                        </span>
-
-                        <span
-                            class="analysis-value"
-                            id="eur-trend"
-                        >
-                            --
-                        </span>
-
-                    </div>
-
-
-                    <div class="analysis-row">
-
-                        <span class="analysis-label">
-                            US30
-                        </span>
-
-                        <span
-                            class="analysis-value"
-                            id="us30-trend"
-                        >
-                            --
-                        </span>
-
-                    </div>
-
-
-                    <div class="analysis-row">
-
-                        <span class="analysis-label">
-                            NAS100
-                        </span>
-
-                        <span
-                            class="analysis-value"
-                            id="nas-trend"
-                        >
-                            --
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- AI -->
-
-            <div class="card">
-
-                <div class="card-header">
-
-                    <div>
-
-                        <div class="card-title">
-                            AI Intelligence
-                        </div>
-
-                        <div class="card-subtitle">
-                            NAVI powered by Ollama
-                        </div>
-
-                    </div>
-
-                    <span class="badge badge-green">
-                        OLLAMA
-                    </span>
-
-                </div>
-
-
-                <p
-                    style="
-                    color:var(--text-secondary);
-                    font-size:12px;
-                    line-height:1.7;
-                    margin-bottom:20px;
-                    "
-                >
-                    Ask NAVI about market structure,
-                    risk, trade setups, portfolio exposure
-                    and market conditions.
-                </p>
-
-
-                <a
-                    href="ai.html"
-                    class="btn btn-primary"
-                    style="width:100%;"
-                >
-                    OPEN NAVI AI
-                </a>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- SYSTEM STATUS -->
-
-    <section class="section">
-
-        <div class="card">
-
-            <div class="card-header">
-
-                <div>
-
-                    <div class="card-title">
-                        System Status
-                    </div>
-
-                    <div class="card-subtitle">
-                        NAVI infrastructure
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="grid grid-4">
-
-
-                <div>
-
-                    <div class="metric-label">
-                        MT5
-                    </div>
-
-                    <span
-                        class="badge badge-green"
-                        id="mt5-status"
-                    >
-                        CONNECTING
-                    </span>
-
-                </div>
-
-
-                <div>
-
-                    <div class="metric-label">
-                        BACKEND
-                    </div>
-
-                    <span
-                        class="badge badge-green"
-                        id="backend-status"
-                    >
-                        CONNECTING
-                    </span>
-
-                </div>
-
-
-                <div>
-
-                    <div class="metric-label">
-                        MARKET FEED
-                    </div>
-
-                    <span
-                        class="badge badge-green"
-                        id="feed-status"
-                    >
-                        CONNECTING
-                    </span>
-
-                </div>
-
-
-                <div>
-
-                    <div class="metric-label">
-                        AI ENGINE
-                    </div>
-
-                    <span class="badge badge-gold">
-                        OLLAMA
-                    </span>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-</main>
-```
-
-</div>
-
 <script>
 
 /* =========================================================
    NAVI FRONTEND CONFIGURATION
    ========================================================= */
 
-const API_URL = "http://127.0.0.1:8000";
+/*
+   IMPORTANT:
+   This is your public backend.
+   DO NOT use 127.0.0.1 here.
+*/
+
+const API_URL = "https://cyberspace.tail754c2f.ts.net";
 
 
 /* =========================================================
@@ -806,6 +52,10 @@ const marketConfig = {
 };
 
 
+/* =========================================================
+   PREVIOUS PRICES
+   ========================================================= */
+
 const previousPrices = {};
 
 
@@ -815,35 +65,28 @@ const previousPrices = {};
 
 function formatPrice(symbol, price) {
 
-    if (price === null || price === undefined) {
+    if (
+        price === null ||
+        price === undefined ||
+        !Number.isFinite(Number(price))
+    ) {
 
         return "--";
 
     }
 
 
+    const number = Number(price);
+
+
     if (symbol === "EURUSD") {
 
-        return Number(price).toFixed(5);
+        return number.toFixed(5);
 
     }
 
 
-    if (symbol === "XAUUSD") {
-
-        return Number(price).toFixed(2);
-
-    }
-
-
-    if (symbol === "BTCUSD") {
-
-        return Number(price).toFixed(2);
-
-    }
-
-
-    return Number(price).toFixed(2);
+    return number.toFixed(2);
 
 }
 
@@ -883,30 +126,43 @@ function updateMarketCard(symbol, market) {
         );
 
 
-    if (!priceElement) {
+    if (
+        !priceElement ||
+        !changeElement ||
+        !trendElement
+    ) {
 
         return;
 
     }
 
 
+    /*
+       Check whether this market is actually live.
+    */
+
     if (
         !market ||
         market.status !== "LIVE" ||
-        !market.price
+        market.price === null ||
+        market.price === undefined
     ) {
 
         priceElement.textContent =
             "--";
 
+
         changeElement.textContent =
-            "No live data";
+            "NO LIVE DATA";
+
 
         changeElement.className =
             "market-change error";
 
+
         trendElement.textContent =
             "NO DATA";
+
 
         return;
 
@@ -919,9 +175,25 @@ function updateMarketCard(symbol, market) {
         );
 
 
+    if (
+        !Number.isFinite(currentPrice)
+    ) {
+
+        priceElement.textContent =
+            "--";
+
+        return;
+
+    }
+
+
     const previousPrice =
         previousPrices[symbol];
 
+
+    /*
+       Display price.
+    */
 
     priceElement.textContent =
         formatPrice(
@@ -930,57 +202,56 @@ function updateMarketCard(symbol, market) {
         );
 
 
-    /* ================================================
-       PRICE MOVEMENT
-       ================================================ */
+    /*
+       Determine price movement.
+    */
 
     if (
         previousPrice !== undefined &&
-        currentPrice !== previousPrice
+        currentPrice > previousPrice
     ) {
 
-        if (
-            currentPrice >
-            previousPrice
-        ) {
-
-            priceElement.classList.remove(
-                "price-down"
-            );
-
-            priceElement.classList.add(
-                "price-up"
-            );
-
-            changeElement.textContent =
-                "▲ PRICE RISING";
-
-            changeElement.className =
-                "market-change live";
-
-        }
+        priceElement.classList.remove(
+            "price-down"
+        );
 
 
-        else if (
-            currentPrice <
-            previousPrice
-        ) {
+        priceElement.classList.add(
+            "price-up"
+        );
 
-            priceElement.classList.remove(
-                "price-up"
-            );
 
-            priceElement.classList.add(
-                "price-down"
-            );
+        changeElement.textContent =
+            "▲ PRICE RISING";
 
-            changeElement.textContent =
-                "▼ PRICE FALLING";
 
-            changeElement.className =
-                "market-change error";
+        changeElement.className =
+            "market-change live";
 
-        }
+    }
+
+
+    else if (
+        previousPrice !== undefined &&
+        currentPrice < previousPrice
+    ) {
+
+        priceElement.classList.remove(
+            "price-up"
+        );
+
+
+        priceElement.classList.add(
+            "price-down"
+        );
+
+
+        changeElement.textContent =
+            "▼ PRICE FALLING";
+
+
+        changeElement.className =
+            "market-change error";
 
     }
 
@@ -990,8 +261,59 @@ function updateMarketCard(symbol, market) {
         changeElement.textContent =
             "● LIVE";
 
+
         changeElement.className =
             "market-change live";
+
+    }
+
+
+    /*
+       Use backend trend if available.
+    */
+
+    if (market.trend) {
+
+        trendElement.textContent =
+            String(
+                market.trend
+            ).toUpperCase();
+
+    }
+
+    else if (
+        previousPrice !== undefined
+    ) {
+
+        if (currentPrice > previousPrice) {
+
+            trendElement.textContent =
+                "RISING";
+
+        }
+
+        else if (
+            currentPrice < previousPrice
+        ) {
+
+            trendElement.textContent =
+                "FALLING";
+
+        }
+
+        else {
+
+            trendElement.textContent =
+                "FLAT";
+
+        }
+
+    }
+
+    else {
+
+        trendElement.textContent =
+            "LIVE";
 
     }
 
@@ -1014,6 +336,7 @@ async function loadMarkets() {
             await fetch(
                 `${API_URL}/markets`,
                 {
+                    method: "GET",
                     cache: "no-store"
                 }
             );
@@ -1022,7 +345,7 @@ async function loadMarkets() {
         if (!response.ok) {
 
             throw new Error(
-                "Market request failed"
+                `Market request failed: ${response.status}`
             );
 
         }
@@ -1032,37 +355,77 @@ async function loadMarkets() {
             await response.json();
 
 
+        /*
+           Backend format:
+
+           {
+               "status": "LIVE",
+               "markets": {...}
+           }
+        */
+
         if (
-            data.status === "LIVE" &&
-            data.markets
+            !data ||
+            !data.markets
         ) {
 
-            Object.keys(
-                data.markets
-            ).forEach(
-                symbol => {
-
-                    updateMarketCard(
-                        symbol,
-                        data.markets[symbol]
-                    );
-
-                }
+            throw new Error(
+                "Backend returned no market data"
             );
-
-
-            document.getElementById(
-                "market-update"
-            ).textContent =
-                "MT5 market feed updated • " +
-                new Date().toLocaleTimeString();
-
-
-            setSystemOnline();
 
         }
 
+
+        /*
+           Update all markets.
+        */
+
+        Object.keys(
+            data.markets
+        ).forEach(
+            symbol => {
+
+                updateMarketCard(
+                    symbol,
+                    data.markets[symbol]
+                );
+
+            }
+        );
+
+
+        /*
+           Update last refresh time.
+        */
+
+        const updateElement =
+            document.getElementById(
+                "market-update"
+            );
+
+
+        if (updateElement) {
+
+            updateElement.textContent =
+                "MT5 market feed updated • " +
+                new Date().toLocaleTimeString();
+
+        }
+
+
+        /*
+           Backend and market feed are working.
+        */
+
+        setSystemOnline(
+            true
+        );
+
+
+        return true;
+
     }
+
 
     catch (error) {
 
@@ -1073,6 +436,150 @@ async function loadMarkets() {
 
 
         setSystemOffline();
+
+
+        return false;
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD BACKEND / MT5 STATUS
+   ========================================================= */
+
+async function loadSystemStatus() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${API_URL}/`,
+                {
+                    method: "GET",
+                    cache: "no-store"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Backend status failed: ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+           Your backend currently returns:
+
+           {
+               "message": "NAVI backend is working",
+               "mt5_connected": true,
+               "ollama_model": "llama3.2",
+               "markets": [...]
+           }
+        */
+
+
+        const backendWorking =
+            data.message ===
+            "NAVI backend is working";
+
+
+        const mt5Connected =
+            data.mt5_connected === true;
+
+
+        /*
+           Backend status.
+        */
+
+        const backendStatus =
+            document.getElementById(
+                "backend-status"
+            );
+
+
+        if (backendStatus) {
+
+            backendStatus.textContent =
+                backendWorking
+                    ? "ONLINE"
+                    : "OFFLINE";
+
+        }
+
+
+        /*
+           MT5 status.
+        */
+
+        const mt5Status =
+            document.getElementById(
+                "mt5-status"
+            );
+
+
+        if (mt5Status) {
+
+            mt5Status.textContent =
+                mt5Connected
+                    ? "CONNECTED"
+                    : "OFFLINE";
+
+        }
+
+
+        /*
+           Overall connection.
+        */
+
+        if (
+            backendWorking &&
+            mt5Connected
+        ) {
+
+            setSystemOnline(
+                true
+            );
+
+        }
+
+        else if (
+            backendWorking
+        ) {
+
+            setSystemOnline(
+                false
+            );
+
+        }
+
+
+        return true;
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "NAVI system status error:",
+            error
+        );
+
+
+        setSystemOffline();
+
+
+        return false;
 
     }
 
@@ -1091,6 +598,7 @@ async function loadAccount() {
             await fetch(
                 `${API_URL}/account`,
                 {
+                    method: "GET",
                     cache: "no-store"
                 }
             );
@@ -1099,7 +607,7 @@ async function loadAccount() {
         if (!response.ok) {
 
             throw new Error(
-                "Account request failed"
+                `Account request failed: ${response.status}`
             );
 
         }
@@ -1110,47 +618,81 @@ async function loadAccount() {
 
 
         if (
-            data.account
+            !data ||
+            !data.account
         ) {
 
-            const account =
-                data.account;
+            throw new Error(
+                "Backend returned no account data"
+            );
+
+        }
 
 
+        const account =
+            data.account;
+
+
+        /*
+           ACCOUNT BALANCE
+        */
+
+        const balance =
+            Number(
+                account.balance
+            );
+
+
+        document.getElementById(
+            "balance"
+        ).textContent =
+            Number.isFinite(balance)
+                ? "$" + balance.toFixed(2)
+                : "--";
+
+
+        /*
+           EQUITY
+        */
+
+        const equity =
+            Number(
+                account.equity
+            );
+
+
+        document.getElementById(
+            "equity"
+        ).textContent =
+            Number.isFinite(equity)
+                ? "$" + equity.toFixed(2)
+                : "--";
+
+
+        /*
+           FLOATING P&L
+        */
+
+        const pnl =
+            Number(
+                account.profit
+            );
+
+
+        const pnlElement =
             document.getElementById(
-                "balance"
-            ).textContent =
-                "$" +
-                Number(
-                    account.balance
-                ).toFixed(2);
+                "floating-pnl"
+            );
 
 
-            document.getElementById(
-                "equity"
-            ).textContent =
-                "$" +
-                Number(
-                    account.equity
-                ).toFixed(2);
-
-
-            const pnl =
-                Number(
-                    account.profit
-                );
-
-
-            const pnlElement =
-                document.getElementById(
-                    "floating-pnl"
-                );
-
+        if (
+            Number.isFinite(pnl)
+        ) {
 
             pnlElement.textContent =
-                (pnl >= 0 ? "+" : "") +
+                (pnl >= 0 ? "+" : "-") +
                 "$" +
-                pnl.toFixed(2);
+                Math.abs(pnl).toFixed(2);
 
 
             pnlElement.classList.remove(
@@ -1159,7 +701,9 @@ async function loadAccount() {
             );
 
 
-            if (pnl >= 0) {
+            if (
+                pnl >= 0
+            ) {
 
                 pnlElement.classList.add(
                     "positive"
@@ -1175,38 +719,48 @@ async function loadAccount() {
 
             }
 
+        }
 
-            /* ==========================================
-               OPEN POSITIONS
-               ========================================== */
+        else {
 
-            try {
+            pnlElement.textContent =
+                "--";
 
-                const positions =
-                    await fetch(
-                        `${API_URL}/positions`,
-                        {
-                            cache: "no-store"
-                        }
-                    );
+        }
 
 
-                if (positions.ok) {
+        /*
+           OPEN POSITIONS
+        */
 
-                    const positionData =
-                        await positions.json();
+        try {
+
+            const positions =
+                await fetch(
+                    `${API_URL}/positions`,
+                    {
+                        method: "GET",
+                        cache: "no-store"
+                    }
+                );
 
 
-                    document.getElementById(
-                        "open-positions"
-                    ).textContent =
-                        positionData.count ?? 0;
+            if (
+                positions.ok
+            ) {
 
-                }
+                const positionData =
+                    await positions.json();
+
+
+                document.getElementById(
+                    "open-positions"
+                ).textContent =
+                    positionData.count ?? 0;
 
             }
 
-            catch {
+            else {
 
                 document.getElementById(
                     "open-positions"
@@ -1217,7 +771,25 @@ async function loadAccount() {
 
         }
 
+
+        catch (positionError) {
+
+            console.error(
+                "NAVI positions error:",
+                positionError
+            );
+
+
+            document.getElementById(
+                "open-positions"
+            ).textContent =
+                "--";
+
+        }
+
+
     }
+
 
     catch (error) {
 
@@ -1225,6 +797,30 @@ async function loadAccount() {
             "NAVI account error:",
             error
         );
+
+
+        document.getElementById(
+            "balance"
+        ).textContent =
+            "--";
+
+
+        document.getElementById(
+            "equity"
+        ).textContent =
+            "--";
+
+
+        document.getElementById(
+            "floating-pnl"
+        ).textContent =
+            "--";
+
+
+        document.getElementById(
+            "open-positions"
+        ).textContent =
+            "--";
 
     }
 
@@ -1235,36 +831,92 @@ async function loadAccount() {
    SYSTEM ONLINE
    ========================================================= */
 
-function setSystemOnline() {
+function setSystemOnline(
+    mt5Connected = true
+) {
 
-    document.getElementById(
-        "sidebar-status"
-    ).textContent =
-        "SYSTEM ONLINE";
-
-
-    document.getElementById(
-        "top-status"
-    ).textContent =
-        "LIVE";
+    const sidebarStatus =
+        document.getElementById(
+            "sidebar-status"
+        );
 
 
-    document.getElementById(
-        "mt5-status"
-    ).textContent =
-        "CONNECTED";
+    const topStatus =
+        document.getElementById(
+            "top-status"
+        );
 
 
-    document.getElementById(
-        "backend-status"
-    ).textContent =
-        "ONLINE";
+    const feedStatus =
+        document.getElementById(
+            "feed-status"
+        );
 
 
-    document.getElementById(
-        "feed-status"
-    ).textContent =
-        "LIVE";
+    if (sidebarStatus) {
+
+        sidebarStatus.textContent =
+            mt5Connected
+                ? "SYSTEM ONLINE"
+                : "BACKEND ONLINE";
+
+    }
+
+
+    if (topStatus) {
+
+        topStatus.textContent =
+            mt5Connected
+                ? "LIVE"
+                : "BACKEND ONLINE";
+
+    }
+
+
+    if (feedStatus) {
+
+        feedStatus.textContent =
+            mt5Connected
+                ? "LIVE"
+                : "MT5 OFFLINE";
+
+    }
+
+
+    /*
+       Status dots.
+    */
+
+    const sidebarDot =
+        document.getElementById(
+            "sidebar-status-dot"
+        );
+
+
+    const topDot =
+        document.getElementById(
+            "top-status-dot"
+        );
+
+
+    if (sidebarDot) {
+
+        sidebarDot.style.background =
+            mt5Connected
+                ? "#36d98a"
+                : "#e57373";
+
+    }
+
+
+    if (topDot) {
+
+        topDot.style.background =
+            mt5Connected
+                ? "#36d98a"
+                : "#e57373";
+
+    }
 
 }
 
@@ -1275,22 +927,88 @@ function setSystemOnline() {
 
 function setSystemOffline() {
 
-    document.getElementById(
-        "sidebar-status"
-    ).textContent =
-        "CONNECTION ERROR";
+    const sidebarStatus =
+        document.getElementById(
+            "sidebar-status"
+        );
 
 
-    document.getElementById(
-        "top-status"
-    ).textContent =
-        "OFFLINE";
+    const topStatus =
+        document.getElementById(
+            "top-status"
+        );
 
 
-    document.getElementById(
-        "feed-status"
-    ).textContent =
-        "OFFLINE";
+    const backendStatus =
+        document.getElementById(
+            "backend-status"
+        );
+
+
+    const feedStatus =
+        document.getElementById(
+            "feed-status"
+        );
+
+
+    if (sidebarStatus) {
+
+        sidebarStatus.textContent =
+            "CONNECTION ERROR";
+
+    }
+
+
+    if (topStatus) {
+
+        topStatus.textContent =
+            "OFFLINE";
+
+    }
+
+
+    if (backendStatus) {
+
+        backendStatus.textContent =
+            "OFFLINE";
+
+    }
+
+
+    if (feedStatus) {
+
+        feedStatus.textContent =
+            "OFFLINE";
+
+    }
+
+
+    const sidebarDot =
+        document.getElementById(
+            "sidebar-status-dot"
+        );
+
+
+    const topDot =
+        document.getElementById(
+            "top-status-dot"
+        );
+
+
+    if (sidebarDot) {
+
+        sidebarDot.style.background =
+            "#e57373";
+
+    }
+
+
+    if (topDot) {
+
+        topDot.style.background =
+            "#e57373";
+
+    }
 
 }
 
@@ -1301,7 +1019,23 @@ function setSystemOffline() {
 
 async function initializeNAVI() {
 
+    /*
+       Check backend and MT5 first.
+    */
+
+    await loadSystemStatus();
+
+
+    /*
+       Load live market prices.
+    */
+
     await loadMarkets();
+
+
+    /*
+       Load account information.
+    */
 
     await loadAccount();
 
@@ -1313,7 +1047,8 @@ async function initializeNAVI() {
    ========================================================= */
 
 /*
-   Refresh market prices every 1 second.
+   Market prices:
+   every 1 second.
 */
 
 setInterval(
@@ -1323,7 +1058,19 @@ setInterval(
 
 
 /*
-   Refresh account every 2 seconds.
+   Backend / MT5 status:
+   every 5 seconds.
+*/
+
+setInterval(
+    loadSystemStatus,
+    5000
+);
+
+
+/*
+   Account:
+   every 2 seconds.
 */
 
 setInterval(
@@ -1345,15 +1092,20 @@ initializeNAVI();
 
 function toggleSidebar() {
 
-    document
-        .querySelector(".sidebar")
-        .classList
-        .toggle("open");
+    const sidebar =
+        document.querySelector(
+            ".sidebar"
+        );
+
+
+    if (sidebar) {
+
+        sidebar.classList.toggle(
+            "open"
+        );
+
+    }
 
 }
 
 </script>
-
-</body>
-
-</html>
